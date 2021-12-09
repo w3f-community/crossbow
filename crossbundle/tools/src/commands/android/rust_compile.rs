@@ -22,7 +22,7 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
-use tempfile::Builder;
+use tempfile::{Builder, NamedTempFile};
 
 const NDK_GLUE_EXTRA_CODE: &'static str = r#"
 #[no_mangle]
@@ -67,6 +67,7 @@ mod cargo_apk_glue_code {
     #[link(name = "EGL")]
     #[link(name = "GLESv3")]
     extern "C" {}
+}
 "#;
 
 /// Write a CMake toolchain which will remove references to the rustc build target before
@@ -117,7 +118,10 @@ const HOST_TAG: &str = "linux-x86_64";
 const HOST_TAG: &str = "darwin-x86_64";
 
 /// Generate source file that will be built
-fn generate_lib_file(original_src_path: &Path, extra_code: Option<&str>) -> CargoResult<()> {
+fn generate_lib_file(
+    original_src_path: &Path,
+    extra_code: Option<&str>,
+) -> CargoResult<NamedTempFile> {
     // Determine the name of the temporary file
     let tmp_lib_file_prefix = format!(
         "__cargo_apk_{}",
@@ -140,7 +144,7 @@ fn generate_lib_file(original_src_path: &Path, extra_code: Option<&str>) -> Carg
         original_contents,
         extra_code.unwrap_or("")
     )?;
-    Ok(())
+    Ok(tmp_file)
 }
 
 fn exec_compilation(
@@ -177,7 +181,37 @@ fn exec_compilation(
 
         let original_src_filepath = path.canonicalize()?;
 
-        generate_lib_file(&original_src_filepath, extra_code)?;
+        let tmp_file = generate_lib_file(&original_src_filepath, extra_code)?;
+
+        // Replace source argument
+        let filename = path.file_name().unwrap().to_owned();
+        let source_arg = new_args.iter_mut().find_map(|arg| {
+            let path_arg = Path::new(&arg);
+            let tmp = path_arg.file_name().unwrap();
+
+            if filename == tmp {
+                Some(arg)
+            } else {
+                None
+            }
+        });
+
+        if let Some(source_arg) = source_arg {
+            // Build a new relative path to the temporary source file and use it as the source
+            // argument Using an absolute path causes compatibility issues in
+            // some cases under windows If a UNC path is used then relative
+            // paths used in "include* macros" may not work if the relative path
+            // includes "/" instead of "\"
+            let path_arg = Path::new(&source_arg);
+            let mut path_arg = path_arg.to_path_buf();
+            path_arg.set_file_name(tmp_file.path().file_name().unwrap());
+            *source_arg = path_arg.into_os_string();
+        } else {
+            return Err(format_err!(
+                "Unable to replace source argument when building target '{}'",
+                target.name()
+            ));
+        }
 
         // Create output directory inside the build target directory
         let build_path = build_target_dir.to_path_buf();
