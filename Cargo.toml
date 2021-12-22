@@ -20,6 +20,9 @@ crossbow-permissions = { path = "plugins/permissions", version = "0.1.0", option
 [target.'cfg(target_os = "android")'.dependencies]
 ndk-glue = { git = "https://github.com/rust-windowing/android-ndk-rs" }
 
+[patch.crates-io]
+ron = { git = "https://github.com/enfipy/ron", rev = "3b1f28075071d743469347575b34caf2043beeb9" }
+oboe-sys = { git = "https://github.com/enfipy/oboe-rs", rev = "7aefccaee75e3acd2ecac3552bdd6ea44237ee60" }
 
 [features]
 default = []
@@ -28,5 +31,7 @@ default = []
 members = [
     "plugins/*",
     "crossbundle/*",
-    "examples/*",
+    # "examples/*",
+    "examples/bevy-2d",
+    "examples/macroquad-3d",
 ]
