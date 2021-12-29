@@ -109,6 +109,8 @@ pub enum Error {
     AnyhowError(#[from] anyhow::Error),
     /// Other error
     OtherError(#[from] Box<dyn std::error::Error>),
+    /// Unable to replace source argument when building target: {0}
+    UnableToReplaceSourceArg(String),
 }
 
 /// Extension trait for [`Command`] that helps

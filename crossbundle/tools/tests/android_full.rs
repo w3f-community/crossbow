@@ -1,5 +1,5 @@
 use crossbundle_tools::{
-    commands::{android, gen_minimal_project},
+    commands::{android::{self, Features}, gen_minimal_project},
     tools::{AndroidNdk, AndroidSdk},
     types::*,
 };
@@ -18,18 +18,20 @@ fn test_android_full() {
     let target_sdk_version = 30;
     let profile = Profile::Release;
     let build_target = AndroidTarget::Aarch64LinuxAndroid;
-    android::compile_rust_for_android(
+    let lib_name = "test_lib";
+    let features = Features::default();
+
+    android::compile_rust_for_android_with_mq(
         &ndk,
-        Target::Lib,
         build_target,
         &dir,
         profile,
-        vec![],
-        false,
-        false,
+        features,
         target_sdk_version,
+        lib_name,
     )
     .unwrap();
+    
     let out_dir = dir
         .join("target")
         .join(build_target.rust_triple())

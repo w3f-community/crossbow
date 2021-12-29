@@ -65,9 +65,11 @@ pub fn add_lib_aapt2(lib_path: &Path, out_dir: &Path) -> Result<()> {
 mod tests {
     use super::*;
     use crate::{
-        commands::{android, gen_minimal_project},
+        commands::{
+            android::{self, Features},
+            gen_minimal_project,
+        },
         tools::AndroidSdk,
-        types::Target,
     };
 
     #[test]
@@ -83,17 +85,17 @@ mod tests {
         let target_sdk_version = 30;
         let profile = Profile::Debug;
         let build_target = AndroidTarget::Aarch64LinuxAndroid;
+        let lib_name = "test_lib";
+        let features = Features::default();
 
-        android::compile_rust_for_android(
+        android::compile_rust_for_android_with_mq(
             &ndk,
-            Target::Lib,
             build_target,
             &project_path,
             profile,
-            vec![],
-            false,
-            false,
+            features,
             target_sdk_version,
+            lib_name,
         )
         .unwrap();
 
