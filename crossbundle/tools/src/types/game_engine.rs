@@ -1,4 +1,4 @@
-#[derive(Debug, Clone)]
+#[derive(Clone, Copy)]
 pub enum GameEngine {
     Bevy,
     Macroquad,

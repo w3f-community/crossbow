@@ -69,6 +69,7 @@ mod cargo_apk_glue_code {
 }
 "##;
 
+/// Compiles rust code for android with macroquad engine
 pub fn compile_rust_for_android_with_mq(
     ndk: &AndroidNdk,
     build_target: AndroidTarget,
@@ -124,7 +125,7 @@ pub fn compile_rust_for_android_with_mq(
         build_target_dir,
         build_target,
         nostrip: false,
-        build_macroquad: true,
+        engine: GameEngine::default(),
     });
 
     // Compile all targets for the requested build target
@@ -132,7 +133,7 @@ pub fn compile_rust_for_android_with_mq(
     Ok(())
 }
 
-/// Compiles rust code for android
+/// Compiles rust code for android with bevy engine
 pub fn compile_rust_for_android_with_bevy(
     ndk: &AndroidNdk,
     target: &Target,
@@ -168,6 +169,7 @@ pub fn compile_rust_for_android_with_bevy(
     Ok(())
 }
 
+/// Helper function for Executor trait. Match compile mode and return cmd arguments
 fn exec_compilation(
     cmd: &ProcessBuilder,
     build_target_dir: &Path,
@@ -176,18 +178,14 @@ fn exec_compilation(
     target_sdk_version: u32,
     nostrip: bool,
     profile: Profile,
-    extra_code: &'static str,
-    // TODO: make sure we need this
-    // pre_compilation: Option<&mut dyn FnMut() -> CargoResult<()>>,
+    sokol_extra_code: &'static str,
+    ndk_glue_extra_code: &'static str,
+    engine: GameEngine,
     target: &cargo::core::Target,
     mode: CompileMode,
     on_stdout_line: &mut dyn FnMut(&str) -> CargoResult<()>,
     on_stderr_line: &mut dyn FnMut(&str) -> CargoResult<()>,
 ) -> CargoResult<()> {
-    // if pre_compilation.is_some() {
-    //     (pre_compilation.unwrap())()?;
-    // }
-
     if mode == CompileMode::Build
         && (target.kind() == &TargetKind::Bin || target.kind() == &TargetKind::ExampleBin)
     {
@@ -200,10 +198,13 @@ fn exec_compilation(
         };
 
         // Generate source file that will be built
-        let tmp_file = generate_lib_file(&path, extra_code)?;
+        let tmp_file = match engine {
+            GameEngine::Macroquad => generate_lib_file(&path, sokol_extra_code)?,
+            GameEngine::Bevy => generate_lib_file(&path, ndk_glue_extra_code)?,
+        };
 
         // Replaces source argument and returns collection of arguments
-        manage_source_argument(
+        get_cmd_args(
             &path,
             tmp_file,
             build_target_dir,
@@ -256,7 +257,7 @@ struct SharedLibraryExecutor {
     build_target: AndroidTarget,
     profile: Profile,
     nostrip: bool,
-    build_macroquad: bool,
+    engine: GameEngine,
 }
 
 impl Executor for SharedLibraryExecutor {
@@ -271,47 +272,40 @@ impl Executor for SharedLibraryExecutor {
     ) -> CargoResult<()> {
         let sokol_extra_code = SOKOL_EXTRA_CODE;
         let ndk_glue_extra_code = NDK_GLUE_EXTRA_CODE;
-        if self.build_macroquad {
-            set_cmake_vars(
+        match self.engine {
+            GameEngine::Macroquad => set_cmake_vars(
                 self.build_target,
                 &self.ndk,
                 self.target_sdk_version,
                 &self.build_target_dir,
-            )?;
-
-            exec_compilation(
-                cmd,
-                &self.build_target_dir,
+            )?,
+            GameEngine::Bevy => set_cmake_vars(
                 self.build_target,
                 &self.ndk,
                 self.target_sdk_version,
-                self.nostrip,
-                self.profile,
-                sokol_extra_code,
-                target,
-                mode,
-                on_stdout_line,
-                on_stderr_line,
-            )
-        } else {
-            exec_compilation(
-                cmd,
                 &self.build_target_dir,
-                self.build_target,
-                &self.ndk,
-                self.target_sdk_version,
-                self.nostrip,
-                self.profile,
-                ndk_glue_extra_code,
-                target,
-                mode,
-                on_stdout_line,
-                on_stderr_line,
-            )
-        }
+            )?,
+        };
+        exec_compilation(
+            cmd,
+            &self.build_target_dir,
+            self.build_target,
+            &self.ndk,
+            self.target_sdk_version,
+            self.nostrip,
+            self.profile,
+            sokol_extra_code,
+            ndk_glue_extra_code,
+            self.engine.clone(),
+            target,
+            mode,
+            on_stdout_line,
+            on_stderr_line,
+        )
     }
 }
 
+/// Helper function that allows to return environment argument with specified tool
 fn cargo_env_target_cfg(tool: &str, target: &str) -> String {
     let utarget = target.replace("-", "_");
     let env = format!("CARGO_TARGET_{}_{}", &utarget, tool);
@@ -426,8 +420,8 @@ fn generate_lib_file(path: &Path, extra_code: &'static str) -> CargoResult<Named
     Ok(tmp_file)
 }
 
-/// Replaces source argument and returns collection of arguments
-fn manage_source_argument(
+/// Get the program arguments and execute program with it
+fn get_cmd_args(
     path: &Path,
     tmp_file: NamedTempFile,
     build_target_dir: &Path,
@@ -441,6 +435,7 @@ fn manage_source_argument(
     on_stdout_line: &mut dyn FnMut(&str) -> CargoResult<()>,
     on_stderr_line: &mut dyn FnMut(&str) -> CargoResult<()>,
 ) -> CargoResult<()> {
+    // Get the program arguments
     let mut new_args = cmd.get_args().to_owned();
 
     // Replace source argument
@@ -504,7 +499,7 @@ fn manage_source_argument(
         AndroidNdk::find_ndk_path(target_sdk_version, |platform| {
             version_independent_libraries_path.join(platform.to_string())
         })
-        .map_err(|_| AndroidError::AndroidNdkNotFound)?;
+        .map_err(|_| anyhow::Error::msg("Android SDK not found"))?;
     let gcc_lib_path = tool_root
         .join("lib/gcc")
         .join(build_target.ndk_triple())
@@ -559,73 +554,6 @@ fn build_arg(start: &str, end: impl AsRef<OsStr>) -> OsString {
     new_arg
 }
 
-/// Add arguments and creates new commands
-fn add_needed_arguments(
-    ndk: &AndroidNdk,
-    build_target: &AndroidTarget,
-    target_sdk_version: u32,
-    mut new_args: Vec<OsString>,
-    nostrip: bool,
-    profile: Profile,
-    cmd: &ProcessBuilder,
-) -> CargoResult<ProcessBuilder> {
-    // Determine paths
-    let tool_root = ndk.toolchain_dir().unwrap();
-    let linker_path = tool_root
-        .join("bin")
-        .join(format!("{}-ld.gold", build_target.ndk_triple()));
-    let sysroot = tool_root.join("sysroot");
-    let version_independent_libraries_path = sysroot
-        .join("usr")
-        .join("lib")
-        .join(build_target.ndk_triple());
-    let version_specific_libraries_path =
-        AndroidNdk::find_ndk_path(target_sdk_version, |platform| {
-            version_independent_libraries_path.join(platform.to_string())
-        })
-        .map_err(|_| AndroidError::AndroidNdkNotFound)?;
-    let gcc_lib_path = tool_root
-        .join("lib/gcc")
-        .join(build_target.ndk_triple())
-        .join("4.9.x");
-
-    // Add linker arguments
-    // Specify linker
-    new_args.push(build_arg("-Clinker=", linker_path));
-
-    // Set linker flavor
-    new_args.push("-Clinker-flavor=ld".into());
-
-    // Set system root
-    new_args.push(build_arg("-Clink-arg=--sysroot=", sysroot));
-
-    // Add version specific libraries directory to search path
-    new_args.push(build_arg("-Clink-arg=-L", &version_specific_libraries_path));
-
-    // Add version independent libraries directory to search path
-    new_args.push(build_arg(
-        "-Clink-arg=-L",
-        &version_independent_libraries_path,
-    ));
-
-    // Add path to folder containing libgcc.a to search path
-    new_args.push(build_arg("-Clink-arg=-L", gcc_lib_path));
-
-    // Strip symbols for release builds
-    if !nostrip && profile == Profile::Release {
-        new_args.push("-Clink-arg=-strip-all".into());
-    }
-
-    // Require position independent code
-    new_args.push("-Crelocation-model=pic".into());
-
-    // Create new command
-    let mut cmd = cmd.clone();
-    cmd.args_replace(&new_args);
-
-    Ok(cmd)
-}
-
 /// Sets needed environment variables
 fn set_cmake_vars(
     build_target: AndroidTarget,
@@ -665,18 +593,55 @@ mod tests {
     use super::*;
     #[test]
     fn test_compile_rust_with_macroquad() {
+        // Specify path to user directory
+        let user_dirs = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        let project_path = user_dirs.parent().unwrap().parent().unwrap();
+
+        // Specify path to macroquad project example
+        let project_path = project_path.join("examples").join("macroquad-3d");
+
+        // Provide path to Android SDK and Android NDK
         let sdk = AndroidSdk::from_env().unwrap();
         let ndk = AndroidNdk::from_env(Some(sdk.sdk_path())).unwrap();
+
         compile_rust_for_android_with_mq(
             &ndk,
             AndroidTarget::Aarch64LinuxAndroid,
-            &Path::new("C:\\Users\\den99\\Desktop\\Work\\crossbow\\examples\\macroquad-3d\\"),
+            &project_path,
             Profile::Debug,
             vec![],
             false,
             false,
             30,
             "test",
+        )
+        .unwrap();
+    }
+
+    #[test]
+    fn test_compile_rust_with_bevy() {
+        // Specify path to user directory
+        let user_dirs = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        let project_path = user_dirs.parent().unwrap().parent().unwrap();
+
+        // Specify path to macroquad project example
+        let project_path = project_path.join("examples").join("bevy-2d");
+
+        // Provide path to Android SDK and Android NDK
+        let sdk = AndroidSdk::from_env().unwrap();
+        let ndk = AndroidNdk::from_env(Some(sdk.sdk_path())).unwrap();
+
+        let target = Target::Lib;
+        compile_rust_for_android_with_bevy(
+            &ndk,
+            &target,
+            AndroidTarget::Aarch64LinuxAndroid,
+            &project_path,
+            Profile::Debug,
+            vec![],
+            false,
+            false,
+            30,
         )
         .unwrap();
     }
