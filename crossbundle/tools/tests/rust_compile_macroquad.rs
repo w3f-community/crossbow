@@ -1,6 +1,6 @@
 use crossbundle_tools::{
     commands::{
-        android::{self, Features},
+        android::{self},
         gen_minimal_project,
     },
     tools::{AndroidNdk, AndroidSdk},
@@ -19,14 +19,15 @@ fn test_compile_android() {
     let sdk = AndroidSdk::from_env().unwrap();
     let ndk = AndroidNdk::from_env(Some(sdk.sdk_path())).unwrap();
     let lib_name = "test_lib";
-    let features = Features::default();
 
     android::compile_rust_for_android_with_mq(
         &ndk,
         build_target,
         &dir,
         profile,
-        features,
+        vec![],
+        false,
+        false,
         target_sdk_version,
         lib_name,
     )

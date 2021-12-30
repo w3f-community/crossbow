@@ -66,7 +66,7 @@ mod tests {
     use super::*;
     use crate::{
         commands::{
-            android::{self, Features},
+            android::{self},
             gen_minimal_project,
         },
         tools::AndroidSdk,
@@ -86,14 +86,15 @@ mod tests {
         let profile = Profile::Debug;
         let build_target = AndroidTarget::Aarch64LinuxAndroid;
         let lib_name = "test_lib";
-        let features = Features::default();
 
         android::compile_rust_for_android_with_mq(
             &ndk,
             build_target,
             &project_path,
             profile,
-            features,
+            vec![],
+            false,
+            false,
             target_sdk_version,
             lib_name,
         )

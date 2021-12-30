@@ -8,7 +8,7 @@ use crossbundle_tools::{
 mod tests {
 
     use super::*;
-    use crossbundle_tools::commands::android::{remove, AabKey, Features};
+    use crossbundle_tools::commands::android::{remove, AabKey};
 
     #[test]
     fn test_aab_full() {
@@ -24,14 +24,15 @@ mod tests {
         let profile = Profile::Debug;
         let build_target = AndroidTarget::Aarch64LinuxAndroid;
         let lib_name = "test_lib";
-        let features = Features::default();
 
         android::compile_rust_for_android_with_mq(
             &ndk,
             build_target,
             &project_path,
             profile,
-            features,
+            vec![],
+            false,
+            false,
             target_sdk_version,
             lib_name,
         )
