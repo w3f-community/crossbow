@@ -1,5 +1,7 @@
+#![allow(non_camel_case_types)]
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum PermissionsGroup {
+pub enum AndroidPermissionGroup {
     /// Used for permissions that are associated with activity recognition
     ACTIVITY_RECOGNITION,
     /// Used for runtime permissions related to user's calendar
@@ -30,10 +32,12 @@ pub enum PermissionsGroup {
     STORAGE,
 }
 
-impl std::fmt::Display for Permissions {
+impl std::fmt::Display for AndroidPermissionGroup {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
-            Self::ACTIVITY_RECOGNITION => write!(f, "android.permission-group.ACTIVITY_RECOGNITION"),
+            Self::ACTIVITY_RECOGNITION => {
+                write!(f, "android.permission-group.ACTIVITY_RECOGNITION")
+            }
             Self::CALENDAR => write!(f, "android.permission-group.CALENDAR"),
             Self::CALL_LOG => write!(f, "android.permission-group.CALL_LOG"),
             Self::CAMERA => write!(f, "android.permission-group.CAMERA"),

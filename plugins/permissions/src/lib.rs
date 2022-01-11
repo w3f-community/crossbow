@@ -1,3 +1,5 @@
+pub mod android;
+
 // TODO: Add enum with all android permissions
 // TODO: Add JNI calls to request permissions
 

@@ -1,36 +1,38 @@
+#![allow(non_camel_case_types)]
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum Permissions {
-    /// Allows a calling app to continue a call which was started in another app
+pub enum AndroidPermission {
+    /// Allows a calling app to continue a call which was started in another app.
     ACCEPT_HANDOVER,
-    /// Allows an app to access location in the background
+    /// Allows an app to access location in the background.
     ACCESS_BACKGROUND_LOCATION,
-    /// Allows an application to access data blobs across users
+    /// Allows an application to access data blobs across users.
     ACCESS_BLOBS_ACROSS_USERS,
     /// Allows read/write access to the "properties" table in the checkin database,
-    /// to change values that get uploaded
+    /// to change values that get uploaded.
     ACCESS_CHECKIN_PROPERTIES,
-    /// Allows an app to access approximate location
+    /// Allows an app to access approximate location.
     ACCESS_COARSE_LOCATION,
-    /// Allows an app to access precise location
+    /// Allows an app to access precise location.
     ACCESS_FINE_LOCATION,
-    /// Allows an application to access extra location provider commands
+    /// Allows an application to access extra location provider commands.
     ACCESS_LOCATION_EXTRA_COMMANDS,
     /// Allows an application to access any geographic locations persisted in the
     /// user's shared collection.
     ACCESS_MEDIA_LOCATION,
-    /// Allows applications to access information about networks
+    /// Allows applications to access information about networks.
     ACCESS_NETWORK_STATE,
-    /// Marker permission for applications that wish to access notification policy
+    /// Marker permission for applications that wish to access notification policy.
     ACCESS_NOTIFICATION_POLICY,
-    /// Allows applications to access information about Wi-Fi networks
+    /// Allows applications to access information about Wi-Fi networks.
     ACCESS_WIFI_STATE,
-    /// Allows applications to call into AccountAuthenticators
+    /// Allows applications to call into AccountAuthenticators.
     ACCOUNT_MANAGER,
-    /// Allows an application to recognize physical activity
+    /// Allows an application to recognize physical activity.
     ACTIVITY_RECOGNITION,
-    /// Allows an application to add voicemails into the system
+    /// Allows an application to add voicemails into the system.
     ADD_VOICEMAIL,
-    /// Allows the app to answer an incoming phone call
+    /// Allows the app to answer an incoming phone call.
     ANSWER_PHONE_CALLS,
     /// Allows an application to collect battery statistics
     ///
@@ -537,196 +539,317 @@ pub enum Permissions {
     /// Allows applications to write the sync settings
     WRITE_SYNC_SETTINGS,
     /// Allows an application to modify and remove existing voicemails in the system
-    WRITE_VOICEMAIL
+    WRITE_VOICEMAIL,
 }
 
-impl std::fmt::Display for Permissions {
+impl AndroidPermission {
+    pub fn get_full_permission(&self) -> String {
+        "android.permission.".to_string() + self.to_string().as_str()
+    }
+}
+
+impl std::fmt::Display for AndroidPermission {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
-            Self::ACCEPT_HANDOVER => write!(f, "android.permission.ACCEPT_HANDOVER"),
-            Self::ACCESS_BACKGROUND_LOCATION => write!(f, "android.permission.ACCESS_BACKGROUND_LOCATION"),
-            Self::ACCESS_BLOBS_ACROSS_USERS => write!(f, "android.permission.ACCESS_BLOBS_ACROSS_USERS"),
-            Self::ACCESS_CHECKIN_PROPERTIES => write!(f, "android.permission.ACCESS_CHECKIN_PROPERTIES"),
-            Self::ACCESS_COARSE_LOCATION => write!(f, "android.permission.ACCESS_COARSE_LOCATION"),
-            Self::ACCESS_FINE_LOCATION => write!(f, "android.permission.ACCESS_FINE_LOCATION"),
-            Self::ACCESS_LOCATION_EXTRA_COMMANDS => write!(f, "android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"),
-            Self::ACCESS_MEDIA_LOCATION => write!(f, "android.permission.ACCESS_MEDIA_LOCATION"),
-            Self::ACCESS_NETWORK_STATE => write!(f, "android.permission.ACCESS_NETWORK_STATE"),
-            Self::ACCESS_NOTIFICATION_POLICY => write!(f, "android.permission.ACCESS_NOTIFICATION_POLICY"),
-            Self::ACCESS_WIFI_STATE => write!(f, "android.permission.ACCESS_WIFI_STATE"),
-            Self::ACCOUNT_MANAGER => write!(f, "android.permission.ACCOUNT_MANAGER"),
-            Self::ACTIVITY_RECOGNITION => write!(f, "android.permission.ACTIVITY_RECOGNITION"),
-            Self::ADD_VOICEMAIL => write!(f, "android.permission.ADD_VOICEMAIL"),
-            Self::ANSWER_PHONE_CALLS => write!(f, "android.permission.ANSWER_PHONE_CALLS"),
-            Self::BATTERY_STATS => write!(f, "android.permission.BATTERY_STATS"),
-            Self::BIND_ACCESSIBILITY_SERVICE => write!(f, "android.permission.BIND_ACCESSIBILITY_SERVICE"),
-            Self::BIND_APPWIDGET => write!(f, "android.permission.BIND_APPWIDGET"),
-            Self::BIND_AUTOFILL_SERVICE => write!(f, "android.permission.BIND_AUTOFILL_SERVICE"),
-            Self::BIND_CALL_REDIRECTION_SERVICE => write!(f, "android.permission.BIND_CALL_REDIRECTION_SERVICE"),
-            Self::BIND_CARRIER_MESSAGING_CLIENT_SERVICE => write!(f, "android.permission.BIND_CARRIER_MESSAGING_CLIENT_SERVICE"),
-            Self::BIND_CARRIER_MESSAGING_SERVICE => write!(f, "android.permission.BIND_CARRIER_MESSAGING_SERVICE"),
-            Self::BIND_CARRIER_SERVICES => write!(f, "android.permission.BIND_CARRIER_SERVICES"),
-            Self::BIND_CHOOSER_TARGET_SERVICE => write!(f, "android.permission.BIND_CHOOSER_TARGET_SERVICE"),
-            Self::BIND_COMPANION_DEVICE_SERVICE => write!(f, "android.permission.BIND_COMPANION_DEVICE_SERVICE"),
-            Self::BIND_CONDITION_PROVIDER_SERVICE => write!(f, "android.permission.BIND_CONDITION_PROVIDER_SERVICE"),
-            Self::BIND_CONTROLS => write!(f, "android.permission.BIND_CONTROLS"),
-            Self::BIND_DEVICE_ADMIN => write!(f, "android.permission.BIND_DEVICE_ADMIN"),
-            Self::BIND_DREAM_SERVICE => write!(f, "android.permission.BIND_DREAM_SERVICE"),
-            Self::BIND_INCALL_SERVICE => write!(f, "android.permission.BIND_INCALL_SERVICE"),
-            Self::BIND_INPUT_METHOD => write!(f, "android.permission.BIND_INPUT_METHOD"),
-            Self::BIND_MIDI_DEVICE_SERVICE => write!(f, "android.permission.BIND_MIDI_DEVICE_SERVICE"),
-            Self::BIND_NFC_SERVICE => write!(f, "android.permission.BIND_NFC_SERVICE"),
-            Self::BIND_NOTIFICATION_LISTENER_SERVICE => write!(f, "android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"),
-            Self::BIND_PRINT_SERVICE => write!(f, "android.permission.BIND_PRINT_SERVICE"),
-            Self::BIND_QUICK_ACCESS_WALLET_SERVICE => write!(f, "android.permission.BIND_QUICK_ACCESS_WALLET_SERVICE"),
-            Self::BIND_QUICK_SETTINGS_TILE => write!(f, "android.permission.BIND_QUICK_SETTINGS_TILE"),
-            Self::BIND_REMOTEVIEWS => write!(f, "android.permission.BIND_REMOTEVIEWS"),
-            Self::BIND_SCREENING_SERVICE => write!(f, "android.permission.BIND_SCREENING_SERVICE"),
-            Self::BIND_TELECOM_CONNECTION_SERVICE => write!(f, "android.permission.BIND_TELECOM_CONNECTION_SERVICE"),
-            Self::BIND_TEXT_SERVICE => write!(f, "android.permission.BIND_TEXT_SERVICE"),
-            Self::BIND_TV_INPUT => write!(f, "android.permission.BIND_TV_INPUT"),
-            Self::BIND_VISUAL_VOICEMAIL_SERVICE => write!(f, "android.permission.BIND_VISUAL_VOICEMAIL_SERVICE"),
-            Self::BIND_VOICE_INTERACTION => write!(f, "android.permission.BIND_VOICE_INTERACTION"),
-            Self::BIND_VPN_SERVICE => write!(f, "android.permission.BIND_VPN_SERVICE"),
-            Self::BIND_VR_LISTENER_SERVICE => write!(f, "android.permission.BIND_VR_LISTENER_SERVICE"),
-            Self::BIND_WALLPAPER => write!(f, "android.permission.BIND_WALLPAPER"),
-            Self::BLUETOOTH => write!(f, "android.permission.BLUETOOTH"),
-            Self::BLUETOOTH_ADMIN => write!(f, "android.permission.BLUETOOTH_ADMIN"),
-            Self::BLUETOOTH_ADVERTISE => write!(f, "android.permission.BLUETOOTH_ADVERTISE"),
-            Self::BLUETOOTH_CONNECT => write!(f, "android.permission.BLUETOOTH_CONNECT"),
-            Self::BLUETOOTH_PRIVILEGED => write!(f, "android.permission.BLUETOOTH_PRIVILEGED"),
-            Self::BLUETOOTH_SCAN => write!(f, "android.permission.BLUETOOTH_SCAN"),
-            Self::BODY_SENSORS => write!(f, "android.permission.BODY_SENSORS"),
-            Self::BROADCAST_PACKAGE_REMOVED => write!(f, "android.permission.BROADCAST_PACKAGE_REMOVED"),
-            Self::BROADCAST_SMS => write!(f, "android.permission.BROADCAST_SMS"),
-            Self::BROADCAST_STICKY => write!(f, "android.permission.BROADCAST_STICKY"),
-            Self::BROADCAST_WAP_PUSH => write!(f, "android.permission.BROADCAST_WAP_PUSH"),
-            Self::CALL_COMPANION_APP => write!(f, "android.permission.CALL_COMPANION_APP"),
-            Self::CALL_PHONE => write!(f, "android.permission.CALL_PHONE"),
-            Self::CALL_PRIVILEGED => write!(f, "android.permission.CALL_PRIVILEGED"),
-            Self::CAMERA => write!(f, "android.permission.CAMERA"),
-            Self::CAPTURE_AUDIO_OUTPUT => write!(f, "android.permission.CAPTURE_AUDIO_OUTPUT"),
-            Self::CHANGE_COMPONENT_ENABLED_STATE => write!(f, "android.permission.CHANGE_COMPONENT_ENABLED_STATE"),
-            Self::CHANGE_CONFIGURATION => write!(f, "android.permission.CHANGE_CONFIGURATION"),
-            Self::CHANGE_NETWORK_STATE => write!(f, "android.permission.CHANGE_NETWORK_STATE"),
-            Self::CHANGE_WIFI_MULTICAST_STATE => write!(f, "android.permission.CHANGE_WIFI_MULTICAST_STATE"),
-            Self::CHANGE_WIFI_STATE => write!(f, "android.permission.CHANGE_WIFI_STATE"),
-            Self::CLEAR_APP_CACHE => write!(f, "android.permission.CLEAR_APP_CACHE"),
-            Self::CONTROL_LOCATION_UPDATES => write!(f, "android.permission.CONTROL_LOCATION_UPDATES"),
-            Self::DELETE_CACHE_FILES => write!(f, "android.permission.DELETE_CACHE_FILES"),
-            Self::DELETE_PACKAGES => write!(f, "android.permission.DELETE_PACKAGES"),
-            Self::DIAGNOSTIC => write!(f, "android.permission.DIAGNOSTIC"),
-            Self::DISABLE_KEYGUARD => write!(f, "android.permission.DISABLE_KEYGUARD"),
-            Self::DUMP => write!(f, "android.permission.DUMP"),
-            Self::EXPAND_STATUS_BAR => write!(f, "android.permission.EXPAND_STATUS_BAR"),
-            Self::FACTORY_TEST => write!(f, "android.permission.FACTORY_TEST"),
-            Self::FOREGROUND_SERVICE => write!(f, "android.permission.FOREGROUND_SERVICE"),
-            Self::GET_ACCOUNTS => write!(f, "android.permission.GET_ACCOUNTS"),
-            Self::GET_ACCOUNTS_PRIVILEGED => write!(f, "android.permission.GET_ACCOUNTS_PRIVILEGED"),
-            Self::GET_PACKAGE_SIZE => write!(f, "android.permission.GET_PACKAGE_SIZE"),
-            Self::GET_TASKS => write!(f, "android.permission.GET_TASKS"),
-            Self::GLOBAL_SEARCH => write!(f, "android.permission.GLOBAL_SEARCH"),
-            Self::HIDE_OVERLAY_WINDOWS => write!(f, "android.permission.HIDE_OVERLAY_WINDOWS"),
-            Self::HIGH_SAMPLING_RATE_SENSORS => write!(f, "android.permission.HIGH_SAMPLING_RATE_SENSORS"),
-            Self::INSTALL_LOCATION_PROVIDER => write!(f, "android.permission.INSTALL_LOCATION_PROVIDER"),
-            Self::INSTALL_PACKAGES => write!(f, "android.permission.INSTALL_PACKAGES"),
-            Self::INSTALL_SHORTCUT => write!(f, "android.permission.INSTALL_SHORTCUT"),
-            Self::INSTANT_APP_FOREGROUND_SERVICE => write!(f, "android.permission.INSTANT_APP_FOREGROUND_SERVICE"),
-            Self::INTERACT_ACROSS_PROFILES => write!(f, "android.permission.INTERACT_ACROSS_PROFILES"),
-            Self::INTERNET => write!(f, "android.permission.INTERNET"),
-            Self::KILL_BACKGROUND_PROCESSES => write!(f, "android.permission.KILL_BACKGROUND_PROCESSES"),
-            Self::LAUNCH_MULTI_PANE_SETTINGS_DEEP_LINK => write!(f, "android.permission.LAUNCH_MULTI_PANE_SETTINGS_DEEP_LINK"),
-            Self::LOADER_USAGE_STATS => write!(f, "android.permission.LOADER_USAGE_STATS"),
-            Self::LOCATION_HARDWARE => write!(f, "android.permission.LOCATION_HARDWARE"),
-            Self::MANAGE_DOCUMENTS => write!(f, "android.permission.MANAGE_DOCUMENTS"),
-            Self::MANAGE_EXTERNAL_STORAGE => write!(f, "android.permission.MANAGE_EXTERNAL_STORAGE"),
-            Self::MANAGE_MEDIA => write!(f, "android.permission.MANAGE_MEDIA"),
-            Self::MANAGE_ONGOING_CALLS => write!(f, "android.permission.MANAGE_ONGOING_CALLS"),
-            Self::MANAGE_OWN_CALLS => write!(f, "android.permission.MANAGE_OWN_CALLS"),
-            Self::MASTER_CLEAR => write!(f, "android.permission.MASTER_CLEAR"),
-            Self::MEDIA_CONTENT_CONTROL => write!(f, "android.permission.MEDIA_CONTENT_CONTROL"),
-            Self::MODIFY_AUDIO_SETTINGS => write!(f, "android.permission.MODIFY_AUDIO_SETTINGS"),
-            Self::MODIFY_PHONE_STATE => write!(f, "android.permission.MODIFY_PHONE_STATE"),
-            Self::MOUNT_FORMAT_FILESYSTEMS => write!(f, "android.permission.MOUNT_FORMAT_FILESYSTEMS"),
-            Self::MOUNT_UNMOUNT_FILESYSTEMS => write!(f, "android.permission.MOUNT_UNMOUNT_FILESYSTEMS"),
-            Self::NFC => write!(f, "android.permission.NFC"),
-            Self::NFC_PREFERRED_PAYMENT_INFO => write!(f, "android.permission.NFC_PREFERRED_PAYMENT_INFO"),
-            Self::NFC_TRANSACTION_EVENT => write!(f, "android.permission.NFC_TRANSACTION_EVENT"),
-            Self::PACKAGE_USAGE_STATS => write!(f, "android.permission.PACKAGE_USAGE_STATS"),
-            Self::PERSISTENT_ACTIVITY => write!(f, "android.permission.PERSISTENT_ACTIVITY"),
-            Self::PROCESS_OUTGOING_CALLS => write!(f, "android.permission.PROCESS_OUTGOING_CALLS"),
-            Self::QUERY_ALL_PACKAGES => write!(f, "android.permission.QUERY_ALL_PACKAGES"),
-            Self::READ_CALENDAR => write!(f, "android.permission.READ_CALENDAR"),
-            Self::READ_CALL_LOG => write!(f, "android.permission.READ_CALL_LOG"),
-            Self::READ_CONTACTS => write!(f, "android.permission.READ_CONTACTS"),
-            Self::READ_EXTERNAL_STORAG => write!(f, "android.permission.READ_EXTERNAL_STORAG"),
-            Self::READ_INPUT_STATE => write!(f, "android.permission.READ_INPUT_STATE"),
-            Self::READ_LOGS => write!(f, "android.permission.READ_LOGS"),
-            Self::READ_PHONE_NUMBERS => write!(f, "android.permission.READ_PHONE_NUMBERS"),
-            Self::READ_PHONE_STATE => write!(f, "android.permission.READ_PHONE_STATE"),
-            Self::READ_PRECISE_PHONE_STATE => write!(f, "android.permission.READ_PRECISE_PHONE_STATE"),
-            Self::READ_SMS => write!(f, "android.permission.READ_SMS"),
-            Self::READ_SYNC_SETTINGS => write!(f, "android.permission.READ_SYNC_SETTINGS"),
-            Self::READ_SYNC_STATS => write!(f, "android.permission.READ_SYNC_STATS"),
-            Self::READ_VOICEMAIL => write!(f, "android.permission.READ_VOICEMAIL"),
-            Self::REBOOT => write!(f, "android.permission.REBOOT"),
-            Self::RECEIVE_BOOT_COMPLETED => write!(f, "android.permission.RECEIVE_BOOT_COMPLETED"),
-            Self::RECEIVE_MMS => write!(f, "android.permission.RECEIVE_MMS"),
-            Self::RECEIVE_SMS => write!(f, "android.permission.RECEIVE_SMS"),
-            Self::RECEIVE_WAP_PUSH => write!(f, "android.permission.RECEIVE_WAP_PUSH"),
-            Self::RECORD_AUDIO => write!(f, "android.permission.RECORD_AUDIO"),
-            Self::REORDER_TASKS => write!(f, "android.permission.REORDER_TASKS"),
-            Self::REQUEST_COMPANION_PROFILE_WATCH => write!(f, "android.permission.REQUEST_COMPANION_PROFILE_WATCH"),
-            Self::REQUEST_COMPANION_RUN_IN_BACKGROUND => write!(f, "android.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND"),
-            Self::REQUEST_COMPANION_START_FOREGROUND_SERVICES_FROM_BACKGROUND => write!(f, "android.permission.REQUEST_COMPANION_START_FOREGROUND_SERVICES_FROM_BACKGROUND"),
-            Self::REQUEST_COMPANION_USE_DATA_IN_BACKGROUND => write!(f, "android.permission.REQUEST_COMPANION_USE_DATA_IN_BACKGROUND"),
-            Self::REQUEST_DELETE_PACKAGES => write!(f, "android.permission.REQUEST_DELETE_PACKAGES"),
-            Self::REQUEST_IGNORE_BATTERY_OPTIMIZATIONS => write!(f, "android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"),
-            Self::REQUEST_INSTALL_PACKAGES => write!(f, "android.permission.REQUEST_INSTALL_PACKAGES"),
-            Self::REQUEST_OBSERVE_COMPANION_DEVICE_PRESENCE => write!(f, "android.permission.REQUEST_OBSERVE_COMPANION_DEVICE_PRESENCE"),
-            Self::REQUEST_PASSWORD_COMPLEXITY => write!(f, "android.permission.REQUEST_PASSWORD_COMPLEXITY"),
-            Self::RESTART_PACKAGES => write!(f, "android.permission.RESTART_PACKAGES"),
-            Self::SCHEDULE_EXACT_ALARM => write!(f, "android.permission.SCHEDULE_EXACT_ALARM"),
-            Self::SEND_RESPOND_VIA_MESSAGE => write!(f, "android.permission.SEND_RESPOND_VIA_MESSAGE"),
-            Self::SEND_SMS => write!(f, "android.permission.SEND_SMS"),
-            Self::SET_ALARM => write!(f, "android.permission.SET_ALARM"),
-            Self::SET_ALWAYS_FINISH => write!(f, "android.permission.SET_ALWAYS_FINISH"),
-            Self::SET_ANIMATION_SCALE => write!(f, "android.permission.SET_ANIMATION_SCALE"),
-            Self::SET_DEBUG_APP => write!(f, "android.permission.SET_DEBUG_APP"),
-            Self::SET_PREFERRED_APPLICATIONS => write!(f, "android.permission.SET_PREFERRED_APPLICATIONS"),
-            Self::SET_PROCESS_LIMIT => write!(f, "android.permission.SET_PROCESS_LIMIT"),
-            Self::SET_TIME => write!(f, "android.permission.SET_TIME"),
-            Self::SET_TIME_ZONE => write!(f, "android.permission.SET_TIME_ZONE"),
-            Self::SET_WALLPAPER => write!(f, "android.permission.SET_WALLPAPER"),
-            Self::SET_WALLPAPER_HINTS => write!(f, "android.permission.SET_WALLPAPER_HINTS"),
-            Self::SIGNAL_PERSISTENT_PROCESSES => write!(f, "android.permission.SIGNAL_PERSISTENT_PROCESSES"),
-            Self::SMS_FINANCIAL_TRANSACTIONS => write!(f, "android.permission.SMS_FINANCIAL_TRANSACTIONS"),
-            Self::START_FOREGROUND_SERVICES_FROM_BACKGROUND => write!(f, "android.permission.START_FOREGROUND_SERVICES_FROM_BACKGROUND"),
-            Self::START_VIEW_PERMISSION_USAGE => write!(f, "android.permission.START_VIEW_PERMISSION_USAGE"),
-            Self::STATUS_BAR => write!(f, "android.permission.STATUS_BAR"),
-            Self::SYSTEM_ALERT_WINDOW => write!(f, "android.permission.SYSTEM_ALERT_WINDOW"),
-            Self::TRANSMIT_IR => write!(f, "android.permission.TRANSMIT_IR"),
-            Self::UNINSTALL_SHORTCUT => write!(f, "android.permission.UNINSTALL_SHORTCUT"),
-            Self::UPDATE_DEVICE_STATS => write!(f, "android.permission.UPDATE_DEVICE_STATS"),
-            Self::UPDATE_PACKAGES_WITHOUT_USER_ACTION => write!(f, "android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION"),
-            Self::USE_BIOMETRIC => write!(f, "android.permission.USE_BIOMETRIC"),
-            Self::USE_FINGERPRINT => write!(f, "android.permission.USE_FINGERPRINT"),
-            Self::USE_FULL_SCREEN_INTENT => write!(f, "android.permission.USE_FULL_SCREEN_INTENT"),
-            Self::USE_ICC_AUTH_WITH_DEVICE_IDENTIFIER => write!(f, "android.permission.USE_ICC_AUTH_WITH_DEVICE_IDENTIFIER"),
-            Self::USE_SIP => write!(f, "android.permission.USE_SIP"),
-            Self::UWB_RANGING => write!(f, "android.permission.UWB_RANGING"),
-            Self::VIBRATE => write!(f, "android.permission.VIBRATE"),
-            Self::WAKE_LOCK => write!(f, "android.permission.WAKE_LOCK"),
-            Self::WRITE_APN_SETTINGS => write!(f, "android.permission.WRITE_APN_SETTINGS"),
-            Self::WRITE_CALENDAR => write!(f, "android.permission.WRITE_CALENDAR"),
-            Self::WRITE_CALL_LOG => write!(f, "android.permission.WRITE_CALL_LOG"),
-            Self::WRITE_CONTACTS => write!(f, "android.permission.WRITE_CONTACTS"),
-            Self::WRITE_EXTERNAL_STORAGE => write!(f, "android.permission.WRITE_EXTERNAL_STORAGE"),
-            Self::WRITE_GSERVICES => write!(f, "android.permission.WRITE_GSERVICES"),
-            Self::WRITE_SECURE_SETTINGS => write!(f, "android.permission.WRITE_SECURE_SETTINGS"),
-            Self::WRITE_SETTINGS => write!(f, "android.permission.WRITE_SETTINGS"),
-            Self::WRITE_SYNC_SETTINGS => write!(f, "android.permission.WRITE_SYNC_SETTINGS"),
-            Self::WRITE_VOICEMAIL => write!(f, "android.permission.WRITE_VOICEMAIL"),
+            Self::ACCEPT_HANDOVER => write!(f, "ACCEPT_HANDOVER"),
+            Self::ACCESS_BACKGROUND_LOCATION => write!(f, "ACCESS_BACKGROUND_LOCATION"),
+            Self::ACCESS_BLOBS_ACROSS_USERS => {
+                write!(f, "ACCESS_BLOBS_ACROSS_USERS")
+            }
+            Self::ACCESS_CHECKIN_PROPERTIES => {
+                write!(f, "ACCESS_CHECKIN_PROPERTIES")
+            }
+            Self::ACCESS_COARSE_LOCATION => write!(f, "ACCESS_COARSE_LOCATION"),
+            Self::ACCESS_FINE_LOCATION => write!(f, "ACCESS_FINE_LOCATION"),
+            Self::ACCESS_LOCATION_EXTRA_COMMANDS => {
+                write!(f, "ACCESS_LOCATION_EXTRA_COMMANDS")
+            }
+            Self::ACCESS_MEDIA_LOCATION => write!(f, "ACCESS_MEDIA_LOCATION"),
+            Self::ACCESS_NETWORK_STATE => write!(f, "ACCESS_NETWORK_STATE"),
+            Self::ACCESS_NOTIFICATION_POLICY => {
+                write!(f, "ACCESS_NOTIFICATION_POLICY")
+            }
+            Self::ACCESS_WIFI_STATE => write!(f, "ACCESS_WIFI_STATE"),
+            Self::ACCOUNT_MANAGER => write!(f, "ACCOUNT_MANAGER"),
+            Self::ACTIVITY_RECOGNITION => write!(f, "ACTIVITY_RECOGNITION"),
+            Self::ADD_VOICEMAIL => write!(f, "ADD_VOICEMAIL"),
+            Self::ANSWER_PHONE_CALLS => write!(f, "ANSWER_PHONE_CALLS"),
+            Self::BATTERY_STATS => write!(f, "BATTERY_STATS"),
+            Self::BIND_ACCESSIBILITY_SERVICE => {
+                write!(f, "BIND_ACCESSIBILITY_SERVICE")
+            }
+            Self::BIND_APPWIDGET => write!(f, "BIND_APPWIDGET"),
+            Self::BIND_AUTOFILL_SERVICE => write!(f, "BIND_AUTOFILL_SERVICE"),
+            Self::BIND_CALL_REDIRECTION_SERVICE => {
+                write!(f, "BIND_CALL_REDIRECTION_SERVICE")
+            }
+            Self::BIND_CARRIER_MESSAGING_CLIENT_SERVICE => {
+                write!(f, "BIND_CARRIER_MESSAGING_CLIENT_SERVICE")
+            }
+            Self::BIND_CARRIER_MESSAGING_SERVICE => {
+                write!(f, "BIND_CARRIER_MESSAGING_SERVICE")
+            }
+            Self::BIND_CARRIER_SERVICES => write!(f, "BIND_CARRIER_SERVICES"),
+            Self::BIND_CHOOSER_TARGET_SERVICE => {
+                write!(f, "BIND_CHOOSER_TARGET_SERVICE")
+            }
+            Self::BIND_COMPANION_DEVICE_SERVICE => {
+                write!(f, "BIND_COMPANION_DEVICE_SERVICE")
+            }
+            Self::BIND_CONDITION_PROVIDER_SERVICE => {
+                write!(f, "BIND_CONDITION_PROVIDER_SERVICE")
+            }
+            Self::BIND_CONTROLS => write!(f, "BIND_CONTROLS"),
+            Self::BIND_DEVICE_ADMIN => write!(f, "BIND_DEVICE_ADMIN"),
+            Self::BIND_DREAM_SERVICE => write!(f, "BIND_DREAM_SERVICE"),
+            Self::BIND_INCALL_SERVICE => write!(f, "BIND_INCALL_SERVICE"),
+            Self::BIND_INPUT_METHOD => write!(f, "BIND_INPUT_METHOD"),
+            Self::BIND_MIDI_DEVICE_SERVICE => {
+                write!(f, "BIND_MIDI_DEVICE_SERVICE")
+            }
+            Self::BIND_NFC_SERVICE => write!(f, "BIND_NFC_SERVICE"),
+            Self::BIND_NOTIFICATION_LISTENER_SERVICE => {
+                write!(f, "BIND_NOTIFICATION_LISTENER_SERVICE")
+            }
+            Self::BIND_PRINT_SERVICE => write!(f, "BIND_PRINT_SERVICE"),
+            Self::BIND_QUICK_ACCESS_WALLET_SERVICE => {
+                write!(f, "BIND_QUICK_ACCESS_WALLET_SERVICE")
+            }
+            Self::BIND_QUICK_SETTINGS_TILE => {
+                write!(f, "BIND_QUICK_SETTINGS_TILE")
+            }
+            Self::BIND_REMOTEVIEWS => write!(f, "BIND_REMOTEVIEWS"),
+            Self::BIND_SCREENING_SERVICE => write!(f, "BIND_SCREENING_SERVICE"),
+            Self::BIND_TELECOM_CONNECTION_SERVICE => {
+                write!(f, "BIND_TELECOM_CONNECTION_SERVICE")
+            }
+            Self::BIND_TEXT_SERVICE => write!(f, "BIND_TEXT_SERVICE"),
+            Self::BIND_TV_INPUT => write!(f, "BIND_TV_INPUT"),
+            Self::BIND_VISUAL_VOICEMAIL_SERVICE => {
+                write!(f, "BIND_VISUAL_VOICEMAIL_SERVICE")
+            }
+            Self::BIND_VOICE_INTERACTION => write!(f, "BIND_VOICE_INTERACTION"),
+            Self::BIND_VPN_SERVICE => write!(f, "BIND_VPN_SERVICE"),
+            Self::BIND_VR_LISTENER_SERVICE => {
+                write!(f, "BIND_VR_LISTENER_SERVICE")
+            }
+            Self::BIND_WALLPAPER => write!(f, "BIND_WALLPAPER"),
+            Self::BLUETOOTH => write!(f, "BLUETOOTH"),
+            Self::BLUETOOTH_ADMIN => write!(f, "BLUETOOTH_ADMIN"),
+            Self::BLUETOOTH_ADVERTISE => write!(f, "BLUETOOTH_ADVERTISE"),
+            Self::BLUETOOTH_CONNECT => write!(f, "BLUETOOTH_CONNECT"),
+            Self::BLUETOOTH_PRIVILEGED => write!(f, "BLUETOOTH_PRIVILEGED"),
+            Self::BLUETOOTH_SCAN => write!(f, "BLUETOOTH_SCAN"),
+            Self::BODY_SENSORS => write!(f, "BODY_SENSORS"),
+            Self::BROADCAST_PACKAGE_REMOVED => {
+                write!(f, "BROADCAST_PACKAGE_REMOVED")
+            }
+            Self::BROADCAST_SMS => write!(f, "BROADCAST_SMS"),
+            Self::BROADCAST_STICKY => write!(f, "BROADCAST_STICKY"),
+            Self::BROADCAST_WAP_PUSH => write!(f, "BROADCAST_WAP_PUSH"),
+            Self::CALL_COMPANION_APP => write!(f, "CALL_COMPANION_APP"),
+            Self::CALL_PHONE => write!(f, "CALL_PHONE"),
+            Self::CALL_PRIVILEGED => write!(f, "CALL_PRIVILEGED"),
+            Self::CAMERA => write!(f, "CAMERA"),
+            Self::CAPTURE_AUDIO_OUTPUT => write!(f, "CAPTURE_AUDIO_OUTPUT"),
+            Self::CHANGE_COMPONENT_ENABLED_STATE => {
+                write!(f, "CHANGE_COMPONENT_ENABLED_STATE")
+            }
+            Self::CHANGE_CONFIGURATION => write!(f, "CHANGE_CONFIGURATION"),
+            Self::CHANGE_NETWORK_STATE => write!(f, "CHANGE_NETWORK_STATE"),
+            Self::CHANGE_WIFI_MULTICAST_STATE => {
+                write!(f, "CHANGE_WIFI_MULTICAST_STATE")
+            }
+            Self::CHANGE_WIFI_STATE => write!(f, "CHANGE_WIFI_STATE"),
+            Self::CLEAR_APP_CACHE => write!(f, "CLEAR_APP_CACHE"),
+            Self::CONTROL_LOCATION_UPDATES => {
+                write!(f, "CONTROL_LOCATION_UPDATES")
+            }
+            Self::DELETE_CACHE_FILES => write!(f, "DELETE_CACHE_FILES"),
+            Self::DELETE_PACKAGES => write!(f, "DELETE_PACKAGES"),
+            Self::DIAGNOSTIC => write!(f, "DIAGNOSTIC"),
+            Self::DISABLE_KEYGUARD => write!(f, "DISABLE_KEYGUARD"),
+            Self::DUMP => write!(f, "DUMP"),
+            Self::EXPAND_STATUS_BAR => write!(f, "EXPAND_STATUS_BAR"),
+            Self::FACTORY_TEST => write!(f, "FACTORY_TEST"),
+            Self::FOREGROUND_SERVICE => write!(f, "FOREGROUND_SERVICE"),
+            Self::GET_ACCOUNTS => write!(f, "GET_ACCOUNTS"),
+            Self::GET_ACCOUNTS_PRIVILEGED => {
+                write!(f, "GET_ACCOUNTS_PRIVILEGED")
+            }
+            Self::GET_PACKAGE_SIZE => write!(f, "GET_PACKAGE_SIZE"),
+            Self::GET_TASKS => write!(f, "GET_TASKS"),
+            Self::GLOBAL_SEARCH => write!(f, "GLOBAL_SEARCH"),
+            Self::HIDE_OVERLAY_WINDOWS => write!(f, "HIDE_OVERLAY_WINDOWS"),
+            Self::HIGH_SAMPLING_RATE_SENSORS => {
+                write!(f, "HIGH_SAMPLING_RATE_SENSORS")
+            }
+            Self::INSTALL_LOCATION_PROVIDER => {
+                write!(f, "INSTALL_LOCATION_PROVIDER")
+            }
+            Self::INSTALL_PACKAGES => write!(f, "INSTALL_PACKAGES"),
+            Self::INSTALL_SHORTCUT => write!(f, "INSTALL_SHORTCUT"),
+            Self::INSTANT_APP_FOREGROUND_SERVICE => {
+                write!(f, "INSTANT_APP_FOREGROUND_SERVICE")
+            }
+            Self::INTERACT_ACROSS_PROFILES => {
+                write!(f, "INTERACT_ACROSS_PROFILES")
+            }
+            Self::INTERNET => write!(f, "INTERNET"),
+            Self::KILL_BACKGROUND_PROCESSES => {
+                write!(f, "KILL_BACKGROUND_PROCESSES")
+            }
+            Self::LAUNCH_MULTI_PANE_SETTINGS_DEEP_LINK => {
+                write!(f, "LAUNCH_MULTI_PANE_SETTINGS_DEEP_LINK")
+            }
+            Self::LOADER_USAGE_STATS => write!(f, "LOADER_USAGE_STATS"),
+            Self::LOCATION_HARDWARE => write!(f, "LOCATION_HARDWARE"),
+            Self::MANAGE_DOCUMENTS => write!(f, "MANAGE_DOCUMENTS"),
+            Self::MANAGE_EXTERNAL_STORAGE => {
+                write!(f, "MANAGE_EXTERNAL_STORAGE")
+            }
+            Self::MANAGE_MEDIA => write!(f, "MANAGE_MEDIA"),
+            Self::MANAGE_ONGOING_CALLS => write!(f, "MANAGE_ONGOING_CALLS"),
+            Self::MANAGE_OWN_CALLS => write!(f, "MANAGE_OWN_CALLS"),
+            Self::MASTER_CLEAR => write!(f, "MASTER_CLEAR"),
+            Self::MEDIA_CONTENT_CONTROL => write!(f, "MEDIA_CONTENT_CONTROL"),
+            Self::MODIFY_AUDIO_SETTINGS => write!(f, "MODIFY_AUDIO_SETTINGS"),
+            Self::MODIFY_PHONE_STATE => write!(f, "MODIFY_PHONE_STATE"),
+            Self::MOUNT_FORMAT_FILESYSTEMS => {
+                write!(f, "MOUNT_FORMAT_FILESYSTEMS")
+            }
+            Self::MOUNT_UNMOUNT_FILESYSTEMS => {
+                write!(f, "MOUNT_UNMOUNT_FILESYSTEMS")
+            }
+            Self::NFC => write!(f, "NFC"),
+            Self::NFC_PREFERRED_PAYMENT_INFO => {
+                write!(f, "NFC_PREFERRED_PAYMENT_INFO")
+            }
+            Self::NFC_TRANSACTION_EVENT => write!(f, "NFC_TRANSACTION_EVENT"),
+            Self::PACKAGE_USAGE_STATS => write!(f, "PACKAGE_USAGE_STATS"),
+            Self::PERSISTENT_ACTIVITY => write!(f, "PERSISTENT_ACTIVITY"),
+            Self::PROCESS_OUTGOING_CALLS => write!(f, "PROCESS_OUTGOING_CALLS"),
+            Self::QUERY_ALL_PACKAGES => write!(f, "QUERY_ALL_PACKAGES"),
+            Self::READ_CALENDAR => write!(f, "READ_CALENDAR"),
+            Self::READ_CALL_LOG => write!(f, "READ_CALL_LOG"),
+            Self::READ_CONTACTS => write!(f, "READ_CONTACTS"),
+            Self::READ_EXTERNAL_STORAG => write!(f, "READ_EXTERNAL_STORAG"),
+            Self::READ_INPUT_STATE => write!(f, "READ_INPUT_STATE"),
+            Self::READ_LOGS => write!(f, "READ_LOGS"),
+            Self::READ_PHONE_NUMBERS => write!(f, "READ_PHONE_NUMBERS"),
+            Self::READ_PHONE_STATE => write!(f, "READ_PHONE_STATE"),
+            Self::READ_PRECISE_PHONE_STATE => {
+                write!(f, "READ_PRECISE_PHONE_STATE")
+            }
+            Self::READ_SMS => write!(f, "READ_SMS"),
+            Self::READ_SYNC_SETTINGS => write!(f, "READ_SYNC_SETTINGS"),
+            Self::READ_SYNC_STATS => write!(f, "READ_SYNC_STATS"),
+            Self::READ_VOICEMAIL => write!(f, "READ_VOICEMAIL"),
+            Self::REBOOT => write!(f, "REBOOT"),
+            Self::RECEIVE_BOOT_COMPLETED => write!(f, "RECEIVE_BOOT_COMPLETED"),
+            Self::RECEIVE_MMS => write!(f, "RECEIVE_MMS"),
+            Self::RECEIVE_SMS => write!(f, "RECEIVE_SMS"),
+            Self::RECEIVE_WAP_PUSH => write!(f, "RECEIVE_WAP_PUSH"),
+            Self::RECORD_AUDIO => write!(f, "RECORD_AUDIO"),
+            Self::REORDER_TASKS => write!(f, "REORDER_TASKS"),
+            Self::REQUEST_COMPANION_PROFILE_WATCH => write!(f, "REQUEST_COMPANION_PROFILE_WATCH"),
+            Self::REQUEST_COMPANION_RUN_IN_BACKGROUND => {
+                write!(f, "REQUEST_COMPANION_RUN_IN_BACKGROUND")
+            }
+            Self::REQUEST_COMPANION_START_FOREGROUND_SERVICES_FROM_BACKGROUND => write!(
+                f,
+                "REQUEST_COMPANION_START_FOREGROUND_SERVICES_FROM_BACKGROUND"
+            ),
+            Self::REQUEST_COMPANION_USE_DATA_IN_BACKGROUND => {
+                write!(f, "REQUEST_COMPANION_USE_DATA_IN_BACKGROUND")
+            }
+            Self::REQUEST_DELETE_PACKAGES => {
+                write!(f, "REQUEST_DELETE_PACKAGES")
+            }
+            Self::REQUEST_IGNORE_BATTERY_OPTIMIZATIONS => {
+                write!(f, "REQUEST_IGNORE_BATTERY_OPTIMIZATIONS")
+            }
+            Self::REQUEST_INSTALL_PACKAGES => {
+                write!(f, "REQUEST_INSTALL_PACKAGES")
+            }
+            Self::REQUEST_OBSERVE_COMPANION_DEVICE_PRESENCE => {
+                write!(f, "REQUEST_OBSERVE_COMPANION_DEVICE_PRESENCE")
+            }
+            Self::REQUEST_PASSWORD_COMPLEXITY => {
+                write!(f, "REQUEST_PASSWORD_COMPLEXITY")
+            }
+            Self::RESTART_PACKAGES => write!(f, "RESTART_PACKAGES"),
+            Self::SCHEDULE_EXACT_ALARM => write!(f, "SCHEDULE_EXACT_ALARM"),
+            Self::SEND_RESPOND_VIA_MESSAGE => {
+                write!(f, "SEND_RESPOND_VIA_MESSAGE")
+            }
+            Self::SEND_SMS => write!(f, "SEND_SMS"),
+            Self::SET_ALARM => write!(f, "SET_ALARM"),
+            Self::SET_ALWAYS_FINISH => write!(f, "SET_ALWAYS_FINISH"),
+            Self::SET_ANIMATION_SCALE => write!(f, "SET_ANIMATION_SCALE"),
+            Self::SET_DEBUG_APP => write!(f, "SET_DEBUG_APP"),
+            Self::SET_PREFERRED_APPLICATIONS => {
+                write!(f, "SET_PREFERRED_APPLICATIONS")
+            }
+            Self::SET_PROCESS_LIMIT => write!(f, "SET_PROCESS_LIMIT"),
+            Self::SET_TIME => write!(f, "SET_TIME"),
+            Self::SET_TIME_ZONE => write!(f, "SET_TIME_ZONE"),
+            Self::SET_WALLPAPER => write!(f, "SET_WALLPAPER"),
+            Self::SET_WALLPAPER_HINTS => write!(f, "SET_WALLPAPER_HINTS"),
+            Self::SIGNAL_PERSISTENT_PROCESSES => {
+                write!(f, "SIGNAL_PERSISTENT_PROCESSES")
+            }
+            Self::SMS_FINANCIAL_TRANSACTIONS => {
+                write!(f, "SMS_FINANCIAL_TRANSACTIONS")
+            }
+            Self::START_FOREGROUND_SERVICES_FROM_BACKGROUND => {
+                write!(f, "START_FOREGROUND_SERVICES_FROM_BACKGROUND")
+            }
+            Self::START_VIEW_PERMISSION_USAGE => {
+                write!(f, "START_VIEW_PERMISSION_USAGE")
+            }
+            Self::STATUS_BAR => write!(f, "STATUS_BAR"),
+            Self::SYSTEM_ALERT_WINDOW => write!(f, "SYSTEM_ALERT_WINDOW"),
+            Self::TRANSMIT_IR => write!(f, "TRANSMIT_IR"),
+            Self::UNINSTALL_SHORTCUT => write!(f, "UNINSTALL_SHORTCUT"),
+            Self::UPDATE_DEVICE_STATS => write!(f, "UPDATE_DEVICE_STATS"),
+            Self::UPDATE_PACKAGES_WITHOUT_USER_ACTION => {
+                write!(f, "UPDATE_PACKAGES_WITHOUT_USER_ACTION")
+            }
+            Self::USE_BIOMETRIC => write!(f, "USE_BIOMETRIC"),
+            Self::USE_FINGERPRINT => write!(f, "USE_FINGERPRINT"),
+            Self::USE_FULL_SCREEN_INTENT => write!(f, "USE_FULL_SCREEN_INTENT"),
+            Self::USE_ICC_AUTH_WITH_DEVICE_IDENTIFIER => {
+                write!(f, "USE_ICC_AUTH_WITH_DEVICE_IDENTIFIER")
+            }
+            Self::USE_SIP => write!(f, "USE_SIP"),
+            Self::UWB_RANGING => write!(f, "UWB_RANGING"),
+            Self::VIBRATE => write!(f, "VIBRATE"),
+            Self::WAKE_LOCK => write!(f, "WAKE_LOCK"),
+            Self::WRITE_APN_SETTINGS => write!(f, "WRITE_APN_SETTINGS"),
+            Self::WRITE_CALENDAR => write!(f, "WRITE_CALENDAR"),
+            Self::WRITE_CALL_LOG => write!(f, "WRITE_CALL_LOG"),
+            Self::WRITE_CONTACTS => write!(f, "WRITE_CONTACTS"),
+            Self::WRITE_EXTERNAL_STORAGE => write!(f, "WRITE_EXTERNAL_STORAGE"),
+            Self::WRITE_GSERVICES => write!(f, "WRITE_GSERVICES"),
+            Self::WRITE_SECURE_SETTINGS => write!(f, "WRITE_SECURE_SETTINGS"),
+            Self::WRITE_SETTINGS => write!(f, "WRITE_SETTINGS"),
+            Self::WRITE_SYNC_SETTINGS => write!(f, "WRITE_SYNC_SETTINGS"),
+            Self::WRITE_VOICEMAIL => write!(f, "WRITE_VOICEMAIL"),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_get_full_permission() {
+        let permission = AndroidPermission::ACCESS_CHECKIN_PROPERTIES;
+        assert_eq!(
+            permission.get_full_permission(),
+            "android.permission.ACCESS_CHECKIN_PROPERTIES"
+        );
     }
 }
