@@ -102,54 +102,75 @@ pub enum AndroidPermission {
     /// [CarrierMessagingClientService]::(https://developer.android.com/reference/android/service/carrier/CarrierMessagingClientService)
     BindCarrierMessagingClientService,
     /// This constant was deprecated in API level 23. Use [`BIND_CARRIER_SERVICES`]
-    /// instead
+    /// instead.
     ///
     /// [BIND_CARRIER_SERVICES]::(https://developer.android.com/reference/android/Manifest.permission#BIND_CARRIER_SERVICES)
     BindCarrierMessagingService,
     /// The system process that is allowed to bind to services in carrier apps
-    /// will have this permission
+    /// will have this permission.
+    ///
+    /// Protection level: signature|privileged
     BindCarrierServices,
     /// This constant was deprecated in API level 30. For publishing direct share
     /// targets, please follow the instructions in
     /// https://developer.android.com/training/sharing/receive.html#providing-direct-share-targets instead
+    ///
+    /// Protection level: signature
     BindChooserTargetService,
     /// Must be required by any [`CompanionDeviceServices`] to ensure that only the
-    /// system can bind to it
+    /// system can bind to it.
     ///
     /// [CompanionDeviceServices]::(https://developer.android.com/reference/android/companion/CompanionDeviceService)
     BindCompanionDeviceService,
     /// Must be required by a [`ConditionProviderService`], to ensure that only the
-    /// system can bind to it
+    /// system can bind to it.
+    ///
+    /// Protection level: signature
     ///
     /// [ConditionProviderService]::(https://developer.android.com/reference/android/service/notification/ConditionProviderServic)
     BindConditionProviderService,
-    /// Allows SystemUI to request third party controls
+    /// Allows SystemUI to request third party controls. Should only be requested
+    /// by the System and required by [`ControlsProviderService`] declarations.
+    ///
+    /// [ControlsProviderService]::(https://developer.android.com/reference/android/service/controls/ControlsProviderService)
     BindControls,
     /// Must be required by device administration receiver, to ensure that only the
-    /// system can interact with it
+    /// system can interact with it.
+    ///
+    /// Protection level: signature
     BindDeviceAdmin,
     /// Must be required by an [`DreamService`], to ensure that only the system can
     /// bind to it.
+    ///
+    /// Protection level: signature
     ///
     /// [DreamService]::(https://developer.android.com/reference/android/service/dreams/DreamService)
     BindDreamService,
     /// Must be required by a [`InCallService`], to ensure that only the system can
     /// bind to it.
     ///
+    /// Protection level: signature|privileged
+    ///
     /// [InCallService]::(https://developer.android.com/reference/android/telecom/InCallService)
     BindIncallService,
     /// Must be required by an [`InputMethodService`], to ensure that only the system
     /// can bind to it.
+    ///
+    /// Protection level: signature
     ///
     /// [InputMethodService]::(https://developer.android.com/reference/android/inputmethodservice/InputMethodService)
     BindInputMethod,
     /// Must be required by an [`MidiDeviceService`], to ensure that only the system
     /// can bind to it.
     ///
+    /// Protection level: signature
+    ///
     /// [MidiDeviceService]::(https://developer.android.com/reference/android/media/midi/MidiDeviceService)
     BindMidiDeviceService,
     /// Must be required by a [`HostApduService`] or [`OffHostApduService`] to ensure
     /// that only the system can bind to it.
+    ///
+    /// Protection level: signature
     ///
     /// [HostApduService]::(https://developer.android.com/reference/android/nfc/cardemulation/HostApduService)
     /// [OffHostApduService]::(https://developer.android.com/reference/android/nfc/cardemulation/OffHostApduService)
@@ -157,40 +178,59 @@ pub enum AndroidPermission {
     /// Must be required by an [`NotificationListenerService`], to ensure that only
     /// the system can bind to it.
     ///
+    /// Protection level: signature
+    ///
     /// [NotificationListenerService]::(https://developer.android.com/reference/android/service/notification/NotificationListenerService)
     BindNotificationListenerService,
     /// Must be required by a [`PrintService`], to ensure that only the system can
     /// bind to it.
+    ///
+    /// Protection level: signature
     ///
     /// [PrintService]::(https://developer.android.com/reference/android/printservice/PrintService)
     BindPrintService,
     /// Must be required by a [`QuickAccessWalletService`] to ensure that only the
     /// system can bind to it.
     ///
+    /// Protection level: signature
+    ///
     /// [QuickAccessWalletService]::(https://developer.android.com/reference/android/service/quickaccesswallet/QuickAccessWalletService)
     BindQuickAccessWalletService,
     /// Allows an application to bind to third party quick settings tiles.
+    ///
+    /// Should only be requested by the System, should be required by TileService
+    /// declarations.
     BindQuickSettingsTile,
     /// Must be required by a [`RemoteViewsService`], to ensure that only the system
     /// can bind to it.
+    ///
+    /// Protection level: signature|privileged
     ///
     /// [RemoteViewsService]::(https://developer.android.com/reference/android/widget/RemoteViewsService)
     BindRrmoteviews,
     /// Must be required by a [`CallScreeningService`], to ensure that only the system
     /// can bind to it.
     ///
+    /// Protection level: signature|privileged
+    ///
     /// [CallScreeningService]::(https://developer.android.com/reference/android/telecom/CallScreeningService)
     BindScreeningService,
     /// Must be required by a [`ConnectionService`], to ensure that only the system can
     /// bind to it.
     ///
+    /// Protection level: signature|privileged
+    ///
     /// [ConnectionService]::(https://developer.android.com/reference/android/telecom/ConnectionService)
     BindTelecomConnectionService,
     /// Must be required by a TextService (e.g. SpellCheckerService) to ensure that
     /// only the system can bind to it.
+    ///
+    /// Protection level: signature
     BindTextService,
     /// Must be required by a [`TvInputService`] to ensure that only the system can
     /// bind to it.
+    ///
+    /// Protection level: signature|privileged
     ///
     /// [TvInputService]::(https://developer.android.com/reference/android/media/tv/TvInputService)
     BindTvInput,
@@ -202,128 +242,241 @@ pub enum AndroidPermission {
     /// Must be required by a [`VoiceInteractionService`], to ensure that only the
     /// system can bind to it.
     ///
+    /// Protection level: signature|privileged
+    ///
     /// [VoiceInteractionService]::(https://developer.android.com/reference/android/service/voice/VoiceInteractionService)
     BindVoiceInteraction,
     /// Must be required by a [`VpnService`], to ensure that only the system can bind
     /// to it.
+    ///
+    /// Protection level: signature
     ///
     /// [VpnService]::(https://developer.android.com/reference/android/net/VpnService)
     BindVpnService,
     /// Must be required by an [`VrListenerService`], to ensure that only the system
     /// can bind to it.
     ///
+    /// Protection level: signature
+    ///
     /// [VrListenerService]::(https://developer.android.com/reference/android/service/vr/VrListenerService)
     BindVrListenerService,
     /// Must be required by a [`WallpaperService`], to ensure that only the system can
     /// bind to it.
     ///
+    /// Protection level: signature|privileged
+    ///
     /// [WallpaperService]::(https://developer.android.com/reference/android/service/wallpaper/WallpaperService)
     BindWallpaper,
-    /// Allows applications to connect to paired bluetooth devices
+    /// Allows applications to connect to paired bluetooth devices.
+    ///
+    /// Protection level: normal
     Bluetooth,
-    /// Allows applications to discover and pair bluetooth devices
+    /// Allows applications to discover and pair bluetooth devices.
+    ///
+    /// Protection level: normal
     BluetoothAdmin,
-    /// Required to be able to advertise to nearby Bluetooth devices
+    /// Required to be able to advertise to nearby Bluetooth devices.
+    ///
+    /// Protection level: dangerous
     BluetoothAdvertise,
-    /// Required to be able to connect to paired Bluetooth devices
+    /// Required to be able to connect to paired Bluetooth devices.
+    ///
+    /// Protection level: dangerous
     BluetoothConnect,
     /// Allows applications to pair bluetooth devices without user interaction, and to
-    /// allow or disallow phonebook access or message access
+    /// allow or disallow phonebook access or message access.
+    ///
+    /// Not for use by third-party applications.
     BluetoothPrivileged,
-    /// Required to be able to discover and pair nearby Bluetooth devices
+    /// Required to be able to discover and pair nearby Bluetooth devices.
+    ///
+    /// Protection level: dangerous
     BluetoothScan,
     /// Allows an application to access data from sensors that the user uses to measure
-    /// what is happening inside their body, such as heart rate
+    /// what is happening inside their body, such as heart rate.
+    ///
+    /// Protection level: dangerous
     BodySensors,
     /// Allows an application to broadcast a notification that an application package
-    /// has been removed
+    /// has been removed.
+    ///
+    /// Not for use by third-party applications.
     BroadcastPackageRemoved,
-    /// Allows an application to broadcast an SMS receipt notification
+    /// Allows an application to broadcast an SMS receipt notification.
+    ///
+    /// Not for use by third-party applications.
     BroadcastSMS,
-    /// Allows an application to broadcast sticky intents
+    /// Allows an application to broadcast sticky intents.
+    ///
+    /// Protection level: normal
     BroadcastSticky,
-    /// Allows an application to broadcast a WAP PUSH receipt notification
+    /// Allows an application to broadcast a WAP PUSH receipt notification.
+    ///
+    /// Not for use by third-party applications.
     BroadcastWapPush,
     /// Allows an app which implements the [`InCallService`] API to be eligible to be
-    /// enabled as a calling companion app
+    /// enabled as a calling companion app.  This means that the Telecom framework will
+    /// bind to the app's InCallService implementation when there are calls active. The
+    /// app can use the InCallService API to view information about calls on the system
+    /// and control these calls.
+    ///
+    /// Protection level: normal
     ///
     /// [InCallService]::(https://developer.android.com/reference/android/telecom/InCallService)
     CallCompanionApp,
     /// Allows an application to initiate a phone call without going through the Dialer
-    /// user interface for the user to confirm the call
+    /// user interface for the user to confirm the call.
+    ///
+    /// Protection level: dangerous
     CallPhone,
     /// Allows an application to call any phone number, including emergency numbers,
     /// without going through the Dialer user interface for the user to confirm the
-    /// call being placed
+    /// call being placed.
+    ///
+    /// Not for use by third-party applications.
     CallPrivileged,
-    /// Required to be able to access the camera device
+    /// Required to be able to access the camera device.
+    ///
+    /// Protection level: dangerous
     Camera,
-    /// Allows an application to capture audio output
+    /// Allows an application to capture audio output. Use the `CAPTURE_MEDIA_OUTPU`
+    /// permission if only the `USAGE_UNKNOWN`), `USAGE_MEDIA`) or `USAGE_GAME`) usages
+    /// are intended to be captured.
+    ///
+    /// Not for use by third-party applications.
     CaptureAudioOutput,
     /// Allows an application to change whether an application component
-    /// (other than its own) is enabled or not
+    /// (other than its own) is enabled or not.
+    ///
+    /// Not for use by third-party applications.
     ChangeComponentEnabledState,
-    /// Allows an application to modify the current configuration, such as locale
+    /// Allows an application to modify the current configuration, such as locale.
+    ///
+    /// Protection level: signature|privileged|development
     ChangeConfiguration,
-    /// Allows applications to change network connectivity state
+    /// Allows applications to change network connectivity state.
+    ///
+    /// Protection level: normal
     ChangeNetworkState,
-    /// Allows applications to enter Wi-Fi Multicast mode
+    /// Allows applications to enter Wi-Fi Multicast mode.
+    ///
+    /// Protection level: normal
     ChangeWifiMulticastState,
-    /// Allows applications to change Wi-Fi connectivity state
+    /// Allows applications to change Wi-Fi connectivity state.
+    ///
+    /// Protection level: normal
     ChangeWifiState,
     /// Allows an application to clear the caches of all installed applications on
-    /// the device
+    /// the device.
+    ///
+    /// Protection level: signature|privileged
     ClearAppCache,
-    /// Allows enabling/disabling location update notifications from the radio
+    /// Allows enabling/disabling location update notifications from the radio.
+    ///
+    /// Not for use by third-party applications.
     ControlLocationUpdates,
     /// Old permission for deleting an app's cache files, no longer used, but signals
     /// for us to quietly ignore calls instead of throwing an exception.
+    ///
+    /// Protection level: signature|privileged
     DeleteCacheFiles,
-    /// Allows an application to delete packages
+    /// Allows an application to delete packages.
+    ///
+    /// Not for use by third-party applications.
     DeletePackages,
-    /// Allows applications to RW to diagnostic resources
+    /// Allows applications to RW to diagnostic resources.
+    ///
+    /// Not for use by third-party applications.
     Diagnostic,
-    /// Allows applications to disable the keyguard if it is not secure
+    /// Allows applications to disable the keyguard if it is not secure.
+    ///
+    /// Protection level: normal
     DisableKeyguard,
-    /// Allows an application to retrieve state dump information from system services
+    /// Allows an application to retrieve state dump information from system services.
+    ///
+    /// Not for use by third-party applications.
     Dump,
-    /// Allows an application to expand or collapse the status bar
+    /// Allows an application to expand or collapse the status bar.
+    ///
+    /// Protection level: normal
     ExpandStatusBar,
-    /// Run as a manufacturer test application, running as the root user
+    /// Run as a manufacturer test application, running as the root user.
+    ///
+    /// Not for use by third-party applications.
     FactoryTest,
-    /// Allows a regular application to use [`Service.startForeground`]
+    /// Allows a regular application to use [`Service.startForeground`].
+    ///
+    /// Protection level: normal
     ///
     /// [Service.startForeground]::(https://developer.android.com/reference/android/app/Service#startForeground(int,%20android.app.Notification))
     ForegroundService,
-    /// Allows access to the list of accounts in the Accounts Service
+    /// Allows access to the list of accounts in the Accounts Service.
+    ///
+    /// ## Note
+    /// Beginning with Android 6.0 (API level 23), if an app shares the signature
+    /// of the authenticator that manages an account, it does not need `"GET_ACCOUNTS"`
+    /// permission to read information about that account. On Android 5.1 and lower,
+    /// all apps need `"GET_ACCOUNTS"` permission to read information about any account.
+    ///
+    /// Protection level: dangerous
     GetAccounts,
-    /// Allows access to the list of accounts in the Accounts Service
+    /// Allows access to the list of accounts in the Accounts Service.
+    ///
+    /// Protection level: signature|privileged
     GetAccountsPrivileged,
-    /// Allows an application to find out the space used by any package
+    /// Allows an application to find out the space used by any package.
+    ///
+    /// Protection level: normal
     GetPackageSize,
-    /// This constant was deprecated in API level 21. No longer enforced
+    /// This constant was deprecated in API level 21. No longer enforced.
     GetTasks,
     /// This permission can be used on content providers to allow the global search
-    /// system to access their data
+    /// system to access their data. Typically it used when the provider has some
+    /// permissions protecting it (which global search would not be expected to hold),
+    /// and added as a read-only permission to the path in the provider where global
+    /// search queries are performed. This permission can not be held by regular
+    /// applications; it is used by applications to protect themselves from everyone
+    /// else besides global search.
+    ///
+    /// Protection level: signature|privileged
     GlobalSearch,
     /// Allows an app to prevent non-system-overlay windows from being drawn on top
     /// of it
     HighOverlayWindows,
-    /// Allows an app to access sensor data with a sampling rate greater than 200 Hz
+    /// Allows an app to access sensor data with a sampling rate greater than 200 Hz.
+    ///
+    /// Protection level: normal
     HighSamplingRateSensors,
-    /// Allows an application to install a location provider into the Location Manager
+    /// Allows an application to install a location provider into the Location Manager.
+    ///
+    /// Not for use by third-party applications.
     InstallLocationProvider,
-    /// Allows an application to install packages
+    /// Allows an application to install packages.
+    ///
+    /// Not for use by third-party applications.
     InstallPackages,
-    /// Allows an application to install a shortcut in Launcher
+    /// Allows an application to install a shortcut in Launcher.
+    ///
+    /// In Android O (API level 26) and higher, the INSTALL_SHORTCUT broadcast no
+    /// longer has any effect on your app because it's a private, implicit broadcast.
+    /// Instead, you should create an app shortcut by using the requestPinShortcut()
+    /// method from the ShortcutManager class.
+    ///
+    /// Protection level: normal
     InstallShortcut,
-    /// Allows an instant app to create foreground services
+    /// Allows an instant app to create foreground services.
+    ///
+    /// Protection level: signature|development|instant|appop
     InstantAppForegroundService,
-    /// Allows interaction across profiles in the same profile group
+    /// Allows interaction across profiles in the same profile group.
     InteractAcrossProfiles,
-    /// Allows applications to open network sockets
+    /// Allows applications to open network sockets.
+    ///
+    /// Protection level: normal
     Internet,
-    /// Allows an application to call [`ActivityManager.killBackgroundProcesses(String)`]
+    /// Allows an application to call [`ActivityManager.killBackgroundProcesses(String)`].
+    ///
+    /// Protection level: normal
     ///
     /// [ActivityManager.killBackgroundProcesses(String)]::(https://developer.android.com/reference/android/app/ActivityManager#killBackgroundProcesses(java.lang.String))
     KillBackgroundProcesses,
@@ -334,139 +487,318 @@ pub enum AndroidPermission {
     /// [Settings.ACTION_SETTINGS_EMBED_DEEP_LINK_ACTIVITY]::(https://developer.android.com/reference/android/provider/Settings#ACTION_SETTINGS_EMBED_DEEP_LINK_ACTIVITY)
     /// [Activity]::(https://developer.android.com/reference/android/app/Activity)
     LaunchMultiPaneSettingsDeepLink,
-    /// Allows a data loader to read a package's access logs
+    /// Allows a data loader to read a package's access logs. The access logs contain
+    /// the set of pages referenced over time.
+    ///
+    /// Declaring the permission implies intention to use the API and the user of the
+    /// device can grant permission through the Settings application.
+    ///
+    /// Protection level: signature|privileged|appop
+    ///
+    /// A data loader has to be the one which provides data to install an app.
+    ///
+    /// A data loader has to have both permission:LOADER_USAGE_STATS AND
+    /// appop:LOADER_USAGE_STATS allowed to be able to access the read logs.
     LoaderUsageStats,
     /// Allows an application to use location features in hardware, such as the
-    /// geofencing api
+    /// geofencing api.
+    ///
+    /// Not for use by third-party applications.
     LocationHardware,
     /// Allows an application to manage access to documents, usually as part of a
-    /// document picker
+    /// document picker.
+    ///
+    /// This permission should only be requested by the platform document management
+    /// app. This permission cannot be granted to third-party apps.
     ManageDocuments,
-    /// Allows an application a broad access to external storage in scoped storage
+    /// Allows an application a broad access to external storage in scoped storage.
+    /// Intended to be used by few apps that need to manage files on behalf of the users.
+    ///
+    /// protection level: signature|appop|preinstalled
     ManageExternalStorage,
     /// Allows an application to modify and delete media files on this device or any
-    /// connected storage device without user confirmation
+    /// connected storage device without user confirmation.  Applications must already be
+    /// granted the READ_EXTERNAL_STORAGE or MANAGE_EXTERNAL_STORAGE} permissions for this
+    /// permission to take effect.
+    ///
+    /// Even if applications are granted this permission, if applications want to modify or
+    /// delete media files, they also must get the access by calling
+    /// MediaStore.createWriteRequest(ContentResolver, Collection),
+    /// MediaStore.createDeleteRequest(ContentResolver, Collection), or
+    /// MediaStore.createTrashRequest(ContentResolver, Collection, boolean).
+    ///
+    /// This permission doesn't give read or write access directly. It only prevents the
+    /// user confirmation dialog for these requests.
+    ///
+    /// If applications are not granted ACCESS_MEDIA_LOCATION, the system also pops up the
+    /// user confirmation dialog for the write request.
+    ///
+    /// Protection level: signature|appop|preinstalled
     ManageMedia,
-    /// Allows to query ongoing call details and manage ongoing calls
+    /// Allows to query ongoing call details and manage ongoing calls.
     ///
     /// Protection level: signature|appop
     ManageOngoingCalls,
     /// Allows a calling application which manages its own calls through the
-    /// self-managed [`ConnectionService`] APIs
+    /// self-managed [`ConnectionService`] APIs.
     ///
     /// [ConnectionService]::(https://developer.android.com/reference/android/telecom/ConnectionService)
     ManageOwnCalls,
-    /// Not for use by third-party applications
+    /// Not for use by third-party applications.
     MasterClear,
     /// Allows an application to know what content is playing and control its
-    /// playback
+    /// playback.
+    ///
+    /// Not for use by third-party applications due to privacy of media consumption
     MediaContentControl,
-    /// Allows an application to modify global audio settings
+    /// Allows an application to modify global audio settings.
+    ///
+    /// Protection level: normal
     ModifyAudioSettings,
-    /// Allows modification of the telephony state - power on, mmi, etc
+    /// Allows modification of the telephony state - power on, mmi, etc. Does not
+    /// include placing calls.
+    ///
+    /// Not for use by third-party applications.
     ModifyPhoneState,
-    /// Allows formatting file systems for removable storage
+    /// Allows formatting file systems for removable storage.
+    ///
+    /// Not for use by third-party applications.
     MountFormatFilesystems,
-    /// Allows mounting and unmounting file systems for removable storage
+    /// Allows mounting and unmounting file systems for removable storage.
+    ///
+    /// Not for use by third-party applications.
     MountUnmountFilesystems,
-    /// Allows applications to perform I/O operations over NFC
+    /// Allows applications to perform I/O operations over NFC.
+    ///
+    /// Protection level: normal
     NFC,
-    /// Allows applications to receive NFC preferred payment service information
+    /// Allows applications to receive NFC preferred payment service information.
+    ///
+    /// Protection level: normal
     NFCPreferredPatmentInfo,
-    /// Allows applications to receive NFC transaction events
+    /// Allows applications to receive NFC transaction events.
+    ///
+    /// Protection level: normal
     NFCTransactionEvent,
-    /// Allows an application to collect component usage statistics
+    /// Allows an application to collect component usage statistics.
     ///
     /// Declaring the permission implies intention to use the API and the user of
-    /// the device can grant permission through the Settings application
+    /// the device can grant permission through the Settings application.
+    ///
+    /// Protection level: signature|privileged|development|appop|retailDemo
     PackageUsageStats,
     /// This constant was deprecated in API level 15. This functionality will be
     /// removed in the future; please do not use. Allow an application to make
-    /// its activities persistent
+    /// its activities persistent.
     PersistentActivity,
     /// This constant was deprecated in API level 29. Applications should use
     /// [`CallRedirectionService`] instead of the [`Intent.ACTION_NEW_OUTGOING_CALL`]
     /// broadcast.
     ///
+    /// Protection level: dangerous
+    ///
     /// [CallRedirectionService]::(https://developer.android.com/reference/android/telecom/CallRedirectionService)
     /// [Intent.ACTION_NEW_OUTGOING_CALL]::(https://developer.android.com/reference/android/content/Intent#ACTION_NEW_OUTGOING_CALL)
     ProcessOutgoingCalls,
     /// Allows query of any normal app on the device, regardless of manifest
-    /// declarations
+    /// declarations.
+    ///
+    /// Protection level: normal
     QueryAllPackages,
-    /// Allows an application to read the user's calendar data
+    /// Allows an application to read the user's calendar data.
+    ///
+    /// Protection level: dangerous
     ReadCalendar,
-    /// Allows an application to read the user's call log
+    /// Allows an application to read the user's call log.
+    ///
+    /// ## Note
+    /// If your app uses the READ_CONTACTS permission and both your minSdkVersion
+    /// and targetSdkVersion values are set to 15 or lower, the system implicitly
+    /// grants your app this permission. If you don't need this permission, be
+    /// sure your targetSdkVersion is 16 or higher.
+    ///
+    /// Protection level: dangerous
+    ///
+    /// This is a hard restricted permission which cannot be held by an app until
+    /// the installer on record whitelists the permission. For more details see
+    /// PackageInstaller.SessionParams.setWhitelistedRestrictedPermissions(Set).
     ReadCallLog,
-    /// Allows an application to read the user's contacts data
+    /// Allows an application to read the user's contacts data.
+    ///
+    /// Protection level: dangerous
     ReadContacts,
-    /// Allows an application to read from external storage
+    /// Allows an application to read from external storage.
+    ///
+    /// Any app that declares the WRITE_EXTERNAL_STORAGE permission is implicitly
+    /// granted this permission.
+    ///
+    /// This permission is enforced starting in API level 19. Before API level 19,
+    /// this permission is not enforced and all apps still have access to read
+    /// from external storage. You can test your app with the permission enforced
+    /// by enabling Protect USB storage under Developer options in the Settings
+    /// app on a device running Android 4.1 or higher.
+    ///
+    /// Also starting in API level 19, this permission is not required to
+    /// read/write files in your application-specific directories returned by
+    /// Context.getExternalFilesDir(String) and Context.getExternalCacheDir().
+    ///
+    /// This is a soft restricted permission which cannot be held by an app it its
+    /// full form until the installer on record whitelists the permission.
+    /// Specifically, if the permission is allowlisted the holder app can access
+    /// external storage and the visual and aural media collections while if the
+    /// permission is not allowlisted the holder app can only access to the visual
+    /// and aural medial collections. Also the permission is immutably restricted
+    /// meaning that the allowlist state can be specified only at install time and
+    /// cannot change until the app is installed. For more details see
+    /// PackageInstaller.SessionParams.setWhitelistedRestrictedPermissions(Set).
+    ///
+    /// Protection level: dangerous
+    ///
+    /// ## Note
+    /// If both your minSdkVersion and targetSdkVersion values are set to 3 or
+    /// lower, the system implicitly grants your app this permission. If you don't
+    /// need this permission, be sure your targetSdkVersion is 4 or higher.
     ReadExternalStorag,
     /// This constant was deprecated in API level 16. The API that used this
-    /// permission has been removed
+    /// permission has been removed.
+    ///
+    /// Not for use by third-party applications.
     ReadInputState,
-    /// Allows an application to read the low-level system log files
+    /// Allows an application to read the low-level system log files.
+    ///
+    /// Not for use by third-party applications, because Log entries can contain
+    /// the user's private information.
     ReadLogs,
-    /// Allows read access to the device's phone number(s)
+    /// Allows read access to the device's phone number(s). This is a subset of
+    /// the capabilities granted by READ_PHONE_STATE but is exposed to instant
+    /// applications.
+    ///
+    /// Protection level: dangerous
     ReadPhoneNumbers,
     /// Allows read only access to phone state, including the current cellular
     /// network information, the status of any ongoing calls, and a list of
     /// any [`PhoneAccounts`] registered on the device.
     ///
+    /// Protection level: dangerous
+    ///
+    /// ## Note
+    /// If both your minSdkVersion and targetSdkVersion values are set to 3 or
+    /// lower, the system implicitly grants your app this permission. If you don't
+    /// need this permission, be sure your targetSdkVersion is 4 or higher.
+    ///
     /// [PhoneAccounts]::(https://developer.android.com/reference/android/telecom/PhoneAccount)
     ReadPhoneState,
-    /// Allows read only access to precise phone state
+    /// Allows read only access to precise phone state. Allows reading of detailed
+    /// information about phone state for special-use applications such as dialers,
+    /// carrier applications, or ims applications.
     ReadPrecisePhoneState,
-    /// Allows an application to read SMS messages
+    /// Allows an application to read SMS messages.
+    ///
+    /// Protection level: dangerous
+    ///
+    /// This is a hard restricted permission which cannot be held by an app until
+    /// the installer on record whitelists the permission. For more details see
+    /// PackageInstaller.SessionParams.setWhitelistedRestrictedPermissions(Set)
     ReadSMS,
-    /// Allows applications to read the sync settings
+    /// Allows applications to read the sync settings.
+    ///
+    /// Protection level: normal
     ReadSyncSettings,
-    /// Allows applications to read the sync stats
+    /// Allows applications to read the sync stats.
+    ///
+    /// Protection level: normal
     ReadSyncStats,
-    /// Allows an application to read voicemails in the system
+    /// Allows an application to read voicemails in the system.
+    ///
+    /// Protection level: signature|privileged|role
     ReadVoicemail,
-    /// Required to be able to reboot the device
+    /// Required to be able to reboot the device.
+    ///
+    /// Not for use by third-party applications.
     Reboot,
     /// Allows an application to receive the [`Intent.ACTION_BOOT_COMPLETED`]
-    /// that is broadcast after the system finishes booting.
+    /// that is broadcast after the system finishes booting. If you don't
+    /// request this permission, you will not receive the broadcast at that time.
+    /// Though holding this permission does not have any security implications,
+    /// it can have a negative impact on the user experience by increasing the
+    /// amount of time it takes the system to start and allowing applications to
+    /// have themselves running without the user being aware of them. As such,
+    /// you must explicitly declare your use of this facility to make that
+    /// visible to the user.
+    ///
+    /// Protection level: normal
     ///
     /// [Intent.ACTION_BOOT_COMPLETED]::(https://developer.android.com/reference/android/content/Intent#ACTION_BOOT_COMPLETED)
     ReceiveBootCompleted,
-    /// Allows an application to monitor incoming MMS messages
+    /// Allows an application to monitor incoming MMS messages.
+    ///
+    /// Protection level: dangerous
+    ///
+    /// This is a hard restricted permission which cannot be held by an app
+    /// until the installer on record whitelists the permission. For more
+    /// details see
+    /// PackageInstaller.SessionParams.setWhitelistedRestrictedPermissions(Set).
     ReceiveMMS,
-    /// Allows an application to receive SMS messages
+    /// Allows an application to receive SMS messages.
+    ///
+    /// Protection level: dangerous
+    ///
+    /// This is a hard restricted permission which cannot be held by an app
+    /// until the installer on record whitelists the permission. For more
+    /// details see
+    /// PackageInstaller.SessionParams.setWhitelistedRestrictedPermissions(Set).
     ReceiveSMS,
-    /// Allows an application to receive WAP push messages
+    /// Allows an application to receive WAP push messages.
+    ///
+    /// Protection level: dangerous
     ReceiveWapPush,
-    /// Allows an application to record audio
+    /// Allows an application to record audio.
+    ///
+    /// Protection level: dangerous
     RecordAudio,
-    /// Allows an application to change the Z-order of tasks
+    /// Allows an application to change the Z-order of tasks.
+    ///
+    /// Protection level: normal
     ReorderTasks,
     /// Allows app to request to be associated with a device via
-    /// CompanionDeviceManager as a "watch"
+    /// CompanionDeviceManager as a "watch".
     ///
     /// Protection level: normal
     RequestCompanionProfileWatch,
-    /// Allows a companion app to run in the background
+    /// Allows a companion app to run in the background.
+    ///
+    /// Protection level: normal
     RequestCompanionRunInBackground,
-    /// Allows a companion app to start a foreground service from the background
+    /// Allows a companion app to start a foreground service from the background.
+    ///
+    /// Protection level: normal
     RequestCompanionStartForegroundServicesFromBackground,
-    /// Allows a companion app to use data in the background
+    /// Allows a companion app to use data in the background.
+    ///
+    /// Protection level: normal
     RequestCompanionUseDataInBackground,
-    /// Allows an application to request deleting packages
+    /// Allows an application to request deleting packages.
+    ///
+    /// Protection level: normal
     RequestDeletePackages,
     /// Permission an application must hold in order to use
-    /// [`Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`]
+    /// [`Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`].
+    ///
+    /// Protection level: normal
     ///
     /// [Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS]::(https://developer.android.com/reference/android/provider/Settings#ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
     RequestIgnoreBatteryOptimizations,
-    /// Allows an application to request installing packages
+    /// Allows an application to request installing packages.
+    ///
+    /// Protection level: signature
     RequestInstallPackages,
     /// Allows an application to subscribe to notifications about the presence
-    /// status change of their associated companion device
+    /// status change of their associated companion device.
     RequestObserveCompanionDevicePresence,
     /// Allows an application to request the screen lock complexity and prompt
-    /// users to update the screen lock to a certain complexity level
+    /// users to update the screen lock to a certain complexity level.
+    ///
+    /// Protection level: normal
     RequestPasswordComplexity,
     /// This constant was deprecated in API level 15
     ///
@@ -474,21 +806,40 @@ pub enum AndroidPermission {
     ///
     /// [ActivityManager.restartPackage(String)]::(https://developer.android.com/reference/android/app/ActivityManager#restartPackage(java.lang.String))
     RestartPackages,
-    /// Allows applications to use exact alarm APIs
+    /// Allows applications to use exact alarm APIs.
+    ///
+    /// Exact alarms should only be used for user-facing features. For more
+    /// details, see Exact alarm permission.
+    ///
+    /// Apps who hold this permission and target API level 31 or above, always
+    /// stay in the WORKING_SET or lower standby bucket. Applications targeting
+    /// API level 30 or below do not need this permission to use exact alarm APIs.
     ScheduleExactAlarm,
     /// Allows an application (Phone) to send a request to other applications to
     /// handle the respond-via-message action during incoming calls.
+    ///
+    /// Not for use by third-party applications.
     SendRespondViaMessage,
-    /// Allows an application to send SMS messages
+    /// Allows an application to send SMS messages.
+    ///
+    /// Protection level: dangerous
     SendSMS,
-    /// Allows an application to broadcast an Intent to set an alarm for the user
+    /// Allows an application to broadcast an Intent to set an alarm for the user.
+    ///
+    /// Protection level: normal
     SetAlarm,
     /// Allows an application to control whether activities are immediately finished
-    /// when put in the background
+    /// when put in the background.
+    ///
+    /// Not for use by third-party applications.
     SetAlwaysFinish,
-    /// Modify the global animation scaling factor
+    /// Modify the global animation scaling factor.
+    ///
+    /// Not for use by third-party applications.
     SetAnimationScale,
-    /// Configure an application for debugging
+    /// Configure an application for debugging.
+    ///
+    /// Not for use by third-party applications.
     SetDebugApp,
     /// This constant was deprecated in API level 15. No longer useful, see
     /// [`PackageManager.addPackageToPreferred(String)`] for details.
@@ -497,88 +848,180 @@ pub enum AndroidPermission {
     SetPreferredApplications,
     /// Allows an application to set the maximum number of (not needed)
     /// application processes that can be running.
+    ///
+    /// Not for use by third-party applications.
     SetProcessLimit,
-    /// Allows applications to set the system time directly
+    /// Allows applications to set the system time directly.
+    ///
+    /// Not for use by third-party applications.
     SetTime,
-    /// Allows applications to set the system time zone directly
+    /// Allows applications to set the system time zone directly.
+    ///
+    /// Not for use by third-party applications.
     SetTimeZone,
-    /// Allows applications to set the wallpaper
+    /// Allows applications to set the wallpaper.
+    ///
+    /// Protection level: normal
     SetWallpaper,
-    /// Allows applications to set the wallpaper hints
+    /// Allows applications to set the wallpaper hints.
+    ///
+    /// Protection level: normal
     SetWallpaperHints,
-    /// Allow an application to request that a signal be sent to all persistent processes
+    /// Allow an application to request that a signal be sent to all persistent processes.
+    ///
+    /// Not for use by third-party applications.
     SignalPersisteneProcesses,
     /// This constant was deprecated in API level 31. The API that used this permission
-    /// is no longer functional
+    /// is no longer functional.
+    ///
+    ///  Protection level: signature|appop
     SMSFinancialTransactions,
-    /// Allows an application to start foreground services from the background at any time
+    /// Allows an application to start foreground services from the background at any time.
+    /// This permission is not for use by third-party applications, with the only
+    /// exception being if the app is the default SMS app. Otherwise, it's only usable by
+    /// privileged apps, app verifier app, and apps with any of the EMERGENCY or SYSTEM
+    /// GALLERY roles.
     StartForegroundServicesFromBackground,
-    /// Allows the holder to start the permission usage screen for an app
+    /// Allows the holder to start the permission usage screen for an app.
+    ///
+    /// Protection level: signature|installer
     StartViewPermissionUsage,
-    /// Allows an application to open, close, or disable the status bar and its icons
+    /// Allows an application to open, close, or disable the status bar and its icons.
+    ///
+    /// Not for use by third-party applications.
     StatusBar,
     /// Allows an app to create windows using the type
     /// [`WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY`], shown on top of all
     /// other apps.
     ///
+    /// Protection level: signature|setup|appop|installer|pre23|development
+    ///
+    /// ## Note
+    /// If the app targets API level 23 or higher, the app user must explicitly grant
+    /// this permission to the app through a permission management screen. The app
+    /// requests the user's approval by sending an intent with action
+    /// Settings.ACTION_MANAGE_OVERLAY_PERMISSION. The app can check whether it has
+    /// this authorization by calling Settings.canDrawOverlays().
+    ///
     /// [WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY]::(https://developer.android.com/reference/android/view/WindowManager.LayoutParams#TYPE_APPLICATION_OVERLAY)
     SystemAlertWindow,
-    /// Allows using the device's IR transmitter, if available
+    /// Allows using the device's IR transmitter, if available.
+    ///
+    /// Protection level: normal
     TransmitIr,
-    /// Don't use this permission in your app
+    /// Don't use this permission in your app.
     UninstallShotycut,
-    /// Allows an application to update device statistics
+    /// Allows an application to update device statistics.
+    ///
+    /// Not for use by third-party applications.
     UpdateDeviceStats,
     /// Allows an application to indicate via
     /// [`PackageInstaller.SessionParams.setRequireUserAction(int)`] that user action
-    /// should not be required for an app update
+    /// should not be required for an app update.
+    ///
+    /// Protection level: normal
     ///
     /// [PackageInstaller.SessionParams.setRequireUserAction(int)]::(https://developer.android.com/reference/android/content/pm/PackageInstaller.SessionParams#setRequireUserAction(int))
     UpdatePackagesWithoutUserAction,
-    /// Allows an app to use device supported biometric modalities
+    /// Allows an app to use device supported biometric modalities.
+    ///
+    /// Protection level: normal
     UseBiometric,
     /// This constant was deprecated in API level 28. Applications should request
-    /// [`USE_BIOMETRIC`] instead
+    /// [`USE_BIOMETRIC`] instead.
+    ///
+    /// Protection level: normal
     ///
     /// [USE_BIOMETRIC]::(https://developer.android.com/reference/android/Manifest.permission#USE_BIOMETRIC)
     UseFingerprint,
     /// Required for apps targeting [`Build.VERSION_CODES.Q`] that want to use
-    /// [`notification full screen intents`]
+    /// [`notification full screen intents`].
+    ///
+    /// Protection level: normal
     ///
     /// [Build.VERSION_CODES.Q]::(https://developer.android.com/reference/android/os/Build.VERSION_CODES#Q)
     /// [notification full screen intents]::(https://developer.android.com/reference/android/app/Notification.Builder#setFullScreenIntent(android.app.PendingIntent,%20boolean))
     UseFullScreenIntent,
-    /// Allows to read device identifiers and use ICC based authentication like EAP-AKA
+    /// Allows to read device identifiers and use ICC based authentication like
+    /// EAP-AKA.
+    ///
+    /// Protection level: signature|appop
     UseIccAuthWithDeviceIdentifier,
-    /// Allows an application to use SIP service
+    /// Allows an application to use SIP service.
+    ///
+    /// Protection level: dangerous
     UseSip,
-    /// Required to be able to range to devices using ultra-wideband
+    /// Required to be able to range to devices using ultra-wideband.
+    ///
+    /// Protection level: dangerous
     UwbRanging,
-    /// Allows access to the vibrator
+    /// Allows access to the vibrator.
+    ///
+    /// Protection level: normal
     Vibrate,
     /// Allows using PowerManager WakeLocks to keep processor from sleeping or screen
-    /// from dimming
+    /// from dimming.
+    ///
+    /// Protection level: normal
     WakeLock,
     /// Allows applications to write the apn settings and read sensitive fields of an
-    /// existing apn settings like user and password
+    /// existing apn settings like user and password.
+    ///
+    /// Not for use by third-party applications.
     WriteApnSettings,
-    /// Allows an application to write the user's calendar data
+    /// Allows an application to write the user's calendar data.
+    ///
+    /// Protection level: dangerous
+    ///
+    /// ## Note
+    /// If your app uses the WRITE_CONTACTS permission and both your minSdkVersion and
+    /// targetSdkVersion values are set to 15 or lower, the system implicitly grants
+    /// your app this permission. If you don't need this permission, be sure your
+    /// targetSdkVersion is 16 or higher.
     WriteCalendar,
-    /// Allows an application to write (but not read) the user's call log data
+    /// Allows an application to write (but not read) the user's call log data.
+    ///
+    /// Protection level: dangerous
     WriteCallLog,
-    /// Allows an application to write the user's contacts data
+    /// Allows an application to write the user's contacts data.
+    ///
+    /// Protection level: dangerous
     WriteContacts,
-    /// Allows an application to write to external storage
+    /// Allows an application to write to external storage.
+    ///
+    /// Protection level: dangerous
+    ///
+    /// ## Note
+    /// If both your minSdkVersion and targetSdkVersion values are set to 3 or lower,
+    /// the system implicitly grants your app this permission. If you don't need this
+    /// permission, be sure your targetSdkVersion is 4 or higher.
     WriteExternalStorage,
-    /// Allows an application to modify the Google service map
+    /// Allows an application to modify the Google service map.
+    ///
+    /// Not for use by third-party applications.
     WriteGservices,
-    /// Allows an application to read or write the secure system settings
+    /// Allows an application to read or write the secure system settings.
+    ///
+    /// Not for use by third-party applications.
     WriteSecureSettings,
-    /// Allows an application to read or write the system settings
+    /// Allows an application to read or write the system settings.
+    ///
+    /// Protection level: signature|preinstalled|appop|pre23
+    ///
+    /// ## Note
+    /// If the app targets API level 23 or higher, the app user must explicitly grant
+    /// this permission to the app through a permission management screen. The app
+    /// requests the user's approval by sending an intent with action
+    /// Settings.ACTION_MANAGE_WRITE_SETTINGS. The app can check whether it has this
+    /// authorization by calling Settings.System.canWrite().
     WriteSettings,
-    /// Allows applications to write the sync settings
+    /// Allows applications to write the sync settings.
+    ///
+    /// Protection level: normal
     WriteSyncSettings,
-    /// Allows an application to modify and remove existing voicemails in the system
+    /// Allows an application to modify and remove existing voicemails in the system.
+    ///
+    /// Protection level: signature|privileged|role
     WriteVoicemail,
 }
 
