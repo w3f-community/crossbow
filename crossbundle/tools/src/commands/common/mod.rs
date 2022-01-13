@@ -1,4 +1,5 @@
-///! Common commands used in all platforms.
+//! Common commands used in all platforms.
+
 mod create_project;
 mod find_cargo_manifest_path;
 mod gen_minimal_project;

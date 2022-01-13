@@ -1,5 +1,6 @@
-#![allow(non_camel_case_types)]
-
+/// Android Permission Group
+///
+/// See for more details: https://developer.android.com/reference/android/Manifest.permission_group
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum AndroidPermissionGroup {
     /// Used for permissions that are associated with activity recognition.
@@ -35,7 +36,7 @@ pub enum AndroidPermissionGroup {
 }
 
 impl AndroidPermissionGroup {
-    pub fn get_full_permission_group(&self) -> String {
+    pub fn full_string(&self) -> String {
         "android.permission-group.".to_string() + self.to_string().as_str()
     }
 }
@@ -58,5 +59,18 @@ impl std::fmt::Display for AndroidPermissionGroup {
             Self::SMS => write!(f, "SMS"),
             Self::Storage => write!(f, "STORAGE"),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_full_string() {
+        assert_eq!(
+            AndroidPermissionGroup::ActivityRecognition.full_string(),
+            "android.permission-group.ACTIVITY_RECOGNITION"
+        );
     }
 }

@@ -1,5 +1,6 @@
-#![allow(non_camel_case_types)]
-
+/// Android Permissions
+///
+/// See for more details: https://developer.android.com/reference/android/Manifest.permission
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum AndroidPermission {
     /// Allows a calling app to continue a call which was started in another app.
@@ -65,12 +66,12 @@ pub enum AndroidPermission {
     ///
     /// Protection level: signature|privileged|development
     BattertStats,
-    /// Must be required by an [`AccessibilityService`], to ensure that only the
+    /// Must be required by an [AccessibilityService], to ensure that only the
     /// system can bind to it.
     ///
     /// Protection level: signature
     ///
-    /// [AccessibilityService]::(https://developer.android.com/reference/android/accessibilityservice/AccessibilityService)
+    /// [AccessibilityService]: https://developer.android.com/reference/android/accessibilityservice/AccessibilityService
     BindAccessibilityService,
     /// Allows an application to tell the AppWidget service which application can
     /// access AppWidget's data. The normal user flow is that a user picks an
@@ -80,31 +81,31 @@ pub enum AndroidPermission {
     ///
     /// Not for use by third-party applications.
     BindAppwidget,
-    /// Must be required by a [`AutofillService`], to ensure that only the system
+    /// Must be required by a [AutofillService], to ensure that only the system
     /// can bind to it.
     ///
     /// Protection level: signature
     ///
-    /// [AutofillService]::(https://developer.android.com/reference/android/service/autofill/AutofillService)
+    /// [AutofillService]: https://developer.android.com/reference/android/service/autofill/AutofillService
     BindAutofillService,
-    /// Must be required by a [`CallRedirectionService`], to ensure that only the
+    /// Must be required by a [CallRedirectionService], to ensure that only the
     /// system can bind to it.
     ///
     /// Protection level: signature|privileged
     ///
-    /// [CallRedirectionService]::(https://developer.android.com/reference/android/telecom/CallRedirectionService)
+    /// [CallRedirectionService]: https://developer.android.com/reference/android/telecom/CallRedirectionService
     BindCallRedirectionService,
-    /// A subclass of [`CarrierMessagingClientService`] must be protected with
+    /// A subclass of [CarrierMessagingClientService] must be protected with
     /// this permission.
     ///
     /// Protection level: signature
     ///
-    /// [CarrierMessagingClientService]::(https://developer.android.com/reference/android/service/carrier/CarrierMessagingClientService)
+    /// [CarrierMessagingClientService]: https://developer.android.com/reference/android/service/carrier/CarrierMessagingClientService
     BindCarrierMessagingClientService,
-    /// This constant was deprecated in API level 23. Use [`BIND_CARRIER_SERVICES`]
+    /// This constant was deprecated in API level 23. Use [BIND_CARRIER_SERVICES]
     /// instead.
     ///
-    /// [BIND_CARRIER_SERVICES]::(https://developer.android.com/reference/android/Manifest.permission#BIND_CARRIER_SERVICES)
+    /// [BIND_CARRIER_SERVICES]: https://developer.android.com/reference/android/Manifest.permission#BIND_CARRIER_SERVICES
     BindCarrierMessagingService,
     /// The system process that is allowed to bind to services in carrier apps
     /// will have this permission.
@@ -117,155 +118,155 @@ pub enum AndroidPermission {
     ///
     /// Protection level: signature
     BindChooserTargetService,
-    /// Must be required by any [`CompanionDeviceServices`] to ensure that only the
+    /// Must be required by any [CompanionDeviceServices] to ensure that only the
     /// system can bind to it.
     ///
-    /// [CompanionDeviceServices]::(https://developer.android.com/reference/android/companion/CompanionDeviceService)
+    /// [CompanionDeviceServices]: https://developer.android.com/reference/android/companion/CompanionDeviceService
     BindCompanionDeviceService,
-    /// Must be required by a [`ConditionProviderService`], to ensure that only the
+    /// Must be required by a [ConditionProviderService], to ensure that only the
     /// system can bind to it.
     ///
     /// Protection level: signature
     ///
-    /// [ConditionProviderService]::(https://developer.android.com/reference/android/service/notification/ConditionProviderServic)
+    /// [ConditionProviderService]: https://developer.android.com/reference/android/service/notification/ConditionProviderServic
     BindConditionProviderService,
     /// Allows SystemUI to request third party controls. Should only be requested
-    /// by the System and required by [`ControlsProviderService`] declarations.
+    /// by the System and required by [ControlsProviderService] declarations.
     ///
-    /// [ControlsProviderService]::(https://developer.android.com/reference/android/service/controls/ControlsProviderService)
+    /// [ControlsProviderService]: https://developer.android.com/reference/android/service/controls/ControlsProviderService
     BindControls,
     /// Must be required by device administration receiver, to ensure that only the
     /// system can interact with it.
     ///
     /// Protection level: signature
     BindDeviceAdmin,
-    /// Must be required by an [`DreamService`], to ensure that only the system can
+    /// Must be required by an [DreamService], to ensure that only the system can
     /// bind to it.
     ///
     /// Protection level: signature
     ///
-    /// [DreamService]::(https://developer.android.com/reference/android/service/dreams/DreamService)
+    /// [DreamService]: https://developer.android.com/reference/android/service/dreams/DreamService
     BindDreamService,
-    /// Must be required by a [`InCallService`], to ensure that only the system can
+    /// Must be required by a [InCallService], to ensure that only the system can
     /// bind to it.
     ///
     /// Protection level: signature|privileged
     ///
-    /// [InCallService]::(https://developer.android.com/reference/android/telecom/InCallService)
+    /// [InCallService]: https://developer.android.com/reference/android/telecom/InCallService
     BindIncallService,
-    /// Must be required by an [`InputMethodService`], to ensure that only the system
+    /// Must be required by an [InputMethodService], to ensure that only the system
     /// can bind to it.
     ///
     /// Protection level: signature
     ///
-    /// [InputMethodService]::(https://developer.android.com/reference/android/inputmethodservice/InputMethodService)
+    /// [InputMethodService]: https://developer.android.com/reference/android/inputmethodservice/InputMethodService
     BindInputMethod,
-    /// Must be required by an [`MidiDeviceService`], to ensure that only the system
+    /// Must be required by an [MidiDeviceService], to ensure that only the system
     /// can bind to it.
     ///
     /// Protection level: signature
     ///
-    /// [MidiDeviceService]::(https://developer.android.com/reference/android/media/midi/MidiDeviceService)
+    /// [MidiDeviceService]: https://developer.android.com/reference/android/media/midi/MidiDeviceService
     BindMidiDeviceService,
-    /// Must be required by a [`HostApduService`] or [`OffHostApduService`] to ensure
+    /// Must be required by a [HostApduService] or [OffHostApduService] to ensure
     /// that only the system can bind to it.
     ///
     /// Protection level: signature
     ///
-    /// [HostApduService]::(https://developer.android.com/reference/android/nfc/cardemulation/HostApduService)
-    /// [OffHostApduService]::(https://developer.android.com/reference/android/nfc/cardemulation/OffHostApduService)
+    /// [HostApduService]: https://developer.android.com/reference/android/nfc/cardemulation/HostApduService
+    /// [OffHostApduService]: https://developer.android.com/reference/android/nfc/cardemulation/OffHostApduService
     BindNfcService,
-    /// Must be required by an [`NotificationListenerService`], to ensure that only
+    /// Must be required by an [NotificationListenerService], to ensure that only
     /// the system can bind to it.
     ///
     /// Protection level: signature
     ///
-    /// [NotificationListenerService]::(https://developer.android.com/reference/android/service/notification/NotificationListenerService)
+    /// [NotificationListenerService]: https://developer.android.com/reference/android/service/notification/NotificationListenerService
     BindNotificationListenerService,
-    /// Must be required by a [`PrintService`], to ensure that only the system can
+    /// Must be required by a [PrintService], to ensure that only the system can
     /// bind to it.
     ///
     /// Protection level: signature
     ///
-    /// [PrintService]::(https://developer.android.com/reference/android/printservice/PrintService)
+    /// [PrintService]: https://developer.android.com/reference/android/printservice/PrintService
     BindPrintService,
-    /// Must be required by a [`QuickAccessWalletService`] to ensure that only the
+    /// Must be required by a [QuickAccessWalletService] to ensure that only the
     /// system can bind to it.
     ///
     /// Protection level: signature
     ///
-    /// [QuickAccessWalletService]::(https://developer.android.com/reference/android/service/quickaccesswallet/QuickAccessWalletService)
+    /// [QuickAccessWalletService]: https://developer.android.com/reference/android/service/quickaccesswallet/QuickAccessWalletService
     BindQuickAccessWalletService,
     /// Allows an application to bind to third party quick settings tiles.
     ///
     /// Should only be requested by the System, should be required by TileService
     /// declarations.
     BindQuickSettingsTile,
-    /// Must be required by a [`RemoteViewsService`], to ensure that only the system
+    /// Must be required by a [RemoteViewsService], to ensure that only the system
     /// can bind to it.
     ///
     /// Protection level: signature|privileged
     ///
-    /// [RemoteViewsService]::(https://developer.android.com/reference/android/widget/RemoteViewsService)
+    /// [RemoteViewsService]: https://developer.android.com/reference/android/widget/RemoteViewsService
     BindRrmoteviews,
-    /// Must be required by a [`CallScreeningService`], to ensure that only the system
+    /// Must be required by a [CallScreeningService], to ensure that only the system
     /// can bind to it.
     ///
     /// Protection level: signature|privileged
     ///
-    /// [CallScreeningService]::(https://developer.android.com/reference/android/telecom/CallScreeningService)
+    /// [CallScreeningService]: https://developer.android.com/reference/android/telecom/CallScreeningService
     BindScreeningService,
-    /// Must be required by a [`ConnectionService`], to ensure that only the system can
+    /// Must be required by a [ConnectionService], to ensure that only the system can
     /// bind to it.
     ///
     /// Protection level: signature|privileged
     ///
-    /// [ConnectionService]::(https://developer.android.com/reference/android/telecom/ConnectionService)
+    /// [ConnectionService]: https://developer.android.com/reference/android/telecom/ConnectionService
     BindTelecomConnectionService,
     /// Must be required by a TextService (e.g. SpellCheckerService) to ensure that
     /// only the system can bind to it.
     ///
     /// Protection level: signature
     BindTextService,
-    /// Must be required by a [`TvInputService`] to ensure that only the system can
+    /// Must be required by a [TvInputService] to ensure that only the system can
     /// bind to it.
     ///
     /// Protection level: signature|privileged
     ///
-    /// [TvInputService]::(https://developer.android.com/reference/android/media/tv/TvInputService)
+    /// [TvInputService]: https://developer.android.com/reference/android/media/tv/TvInputService
     BindTvInput,
-    /// Must be required by a link [`VisualVoicemailService`] to ensure that only the
+    /// Must be required by a link [VisualVoicemailService] to ensure that only the
     /// system can bind to it.
     ///
-    /// [VisualVoicemailService]::(https://developer.android.com/reference/android/telephony/VisualVoicemailService)
+    /// [VisualVoicemailService]: https://developer.android.com/reference/android/telephony/VisualVoicemailService
     BindVisualVoicemailService,
-    /// Must be required by a [`VoiceInteractionService`], to ensure that only the
+    /// Must be required by a [VoiceInteractionService], to ensure that only the
     /// system can bind to it.
     ///
     /// Protection level: signature|privileged
     ///
-    /// [VoiceInteractionService]::(https://developer.android.com/reference/android/service/voice/VoiceInteractionService)
+    /// [VoiceInteractionService]: https://developer.android.com/reference/android/service/voice/VoiceInteractionService
     BindVoiceInteraction,
-    /// Must be required by a [`VpnService`], to ensure that only the system can bind
+    /// Must be required by a [VpnService], to ensure that only the system can bind
     /// to it.
     ///
     /// Protection level: signature
     ///
-    /// [VpnService]::(https://developer.android.com/reference/android/net/VpnService)
+    /// [VpnService]: https://developer.android.com/reference/android/net/VpnService
     BindVpnService,
-    /// Must be required by an [`VrListenerService`], to ensure that only the system
+    /// Must be required by an [VrListenerService], to ensure that only the system
     /// can bind to it.
     ///
     /// Protection level: signature
     ///
-    /// [VrListenerService]::(https://developer.android.com/reference/android/service/vr/VrListenerService)
+    /// [VrListenerService]: https://developer.android.com/reference/android/service/vr/VrListenerService
     BindVrListenerService,
-    /// Must be required by a [`WallpaperService`], to ensure that only the system can
+    /// Must be required by a [WallpaperService], to ensure that only the system can
     /// bind to it.
     ///
     /// Protection level: signature|privileged
     ///
-    /// [WallpaperService]::(https://developer.android.com/reference/android/service/wallpaper/WallpaperService)
+    /// [WallpaperService]: https://developer.android.com/reference/android/service/wallpaper/WallpaperService
     BindWallpaper,
     /// Allows applications to connect to paired bluetooth devices.
     ///
@@ -314,7 +315,7 @@ pub enum AndroidPermission {
     ///
     /// Not for use by third-party applications.
     BroadcastWapPush,
-    /// Allows an app which implements the [`InCallService`] API to be eligible to be
+    /// Allows an app which implements the [InCallService] API to be eligible to be
     /// enabled as a calling companion app.  This means that the Telecom framework will
     /// bind to the app's InCallService implementation when there are calls active. The
     /// app can use the InCallService API to view information about calls on the system
@@ -322,7 +323,7 @@ pub enum AndroidPermission {
     ///
     /// Protection level: normal
     ///
-    /// [InCallService]::(https://developer.android.com/reference/android/telecom/InCallService)
+    /// [InCallService]: https://developer.android.com/reference/android/telecom/InCallService
     CallCompanionApp,
     /// Allows an application to initiate a phone call without going through the Dialer
     /// user interface for the user to confirm the call.
@@ -404,11 +405,11 @@ pub enum AndroidPermission {
     ///
     /// Not for use by third-party applications.
     FactoryTest,
-    /// Allows a regular application to use [`Service.startForeground`].
+    /// Allows a regular application to use [Service.startForeground].
     ///
     /// Protection level: normal
     ///
-    /// [Service.startForeground]::(https://developer.android.com/reference/android/app/Service#startForeground(int,%20android.app.Notification))
+    /// [Service.startForeground]: https://developer.android.com/reference/android/app/Service#startForeground(int,%20android.app.Notification)
     ForegroundService,
     /// Allows access to the list of accounts in the Accounts Service.
     ///
@@ -474,18 +475,18 @@ pub enum AndroidPermission {
     ///
     /// Protection level: normal
     Internet,
-    /// Allows an application to call [`ActivityManager.killBackgroundProcesses(String)`].
+    /// Allows an application to call [ActivityManager.killBackgroundProcesses(String)].
     ///
     /// Protection level: normal
     ///
-    /// [ActivityManager.killBackgroundProcesses(String)]::(https://developer.android.com/reference/android/app/ActivityManager#killBackgroundProcesses(java.lang.String))
+    /// [ActivityManager.killBackgroundProcesses(String)]: https://developer.android.com/reference/android/app/ActivityManager#killBackgroundProcesses(java.lang.String)
     KillBackgroundProcesses,
     /// An application needs this permission for
-    /// [`Settings.ACTION_SETTINGS_EMBED_DEEP_LINK_ACTIVITY`] to show its [`Activity`]
+    /// [Settings.ACTION_SETTINGS_EMBED_DEEP_LINK_ACTIVITY] to show its [Activity]
     /// embedded in Settings app.
     ///
-    /// [Settings.ACTION_SETTINGS_EMBED_DEEP_LINK_ACTIVITY]::(https://developer.android.com/reference/android/provider/Settings#ACTION_SETTINGS_EMBED_DEEP_LINK_ACTIVITY)
-    /// [Activity]::(https://developer.android.com/reference/android/app/Activity)
+    /// [Settings.ACTION_SETTINGS_EMBED_DEEP_LINK_ACTIVITY]: https://developer.android.com/reference/android/provider/Settings#ACTION_SETTINGS_EMBED_DEEP_LINK_ACTIVITY
+    /// [Activity]: https://developer.android.com/reference/android/app/Activity
     LaunchMultiPaneSettingsDeepLink,
     /// Allows a data loader to read a package's access logs. The access logs contain
     /// the set of pages referenced over time.
@@ -540,9 +541,9 @@ pub enum AndroidPermission {
     /// Protection level: signature|appop
     ManageOngoingCalls,
     /// Allows a calling application which manages its own calls through the
-    /// self-managed [`ConnectionService`] APIs.
+    /// self-managed [ConnectionService] APIs.
     ///
-    /// [ConnectionService]::(https://developer.android.com/reference/android/telecom/ConnectionService)
+    /// [ConnectionService]: https://developer.android.com/reference/android/telecom/ConnectionService
     ManageOwnCalls,
     /// Not for use by third-party applications.
     MasterClear,
@@ -592,13 +593,13 @@ pub enum AndroidPermission {
     /// its activities persistent.
     PersistentActivity,
     /// This constant was deprecated in API level 29. Applications should use
-    /// [`CallRedirectionService`] instead of the [`Intent.ACTION_NEW_OUTGOING_CALL`]
+    /// [CallRedirectionService] instead of the [Intent.ACTION_NEW_OUTGOING_CALL]
     /// broadcast.
     ///
     /// Protection level: dangerous
     ///
-    /// [CallRedirectionService]::(https://developer.android.com/reference/android/telecom/CallRedirectionService)
-    /// [Intent.ACTION_NEW_OUTGOING_CALL]::(https://developer.android.com/reference/android/content/Intent#ACTION_NEW_OUTGOING_CALL)
+    /// [CallRedirectionService]: https://developer.android.com/reference/android/telecom/CallRedirectionService
+    /// [Intent.ACTION_NEW_OUTGOING_CALL]: https://developer.android.com/reference/android/content/Intent#ACTION_NEW_OUTGOING_CALL
     ProcessOutgoingCalls,
     /// Allows query of any normal app on the device, regardless of manifest
     /// declarations.
@@ -677,7 +678,7 @@ pub enum AndroidPermission {
     ReadPhoneNumbers,
     /// Allows read only access to phone state, including the current cellular
     /// network information, the status of any ongoing calls, and a list of
-    /// any [`PhoneAccounts`] registered on the device.
+    /// any [PhoneAccounts] registered on the device.
     ///
     /// Protection level: dangerous
     ///
@@ -686,7 +687,7 @@ pub enum AndroidPermission {
     /// lower, the system implicitly grants your app this permission. If you don't
     /// need this permission, be sure your targetSdkVersion is 4 or higher.
     ///
-    /// [PhoneAccounts]::(https://developer.android.com/reference/android/telecom/PhoneAccount)
+    /// [PhoneAccounts]: https://developer.android.com/reference/android/telecom/PhoneAccount
     ReadPhoneState,
     /// Allows read only access to precise phone state. Allows reading of detailed
     /// information about phone state for special-use applications such as dialers,
@@ -716,7 +717,7 @@ pub enum AndroidPermission {
     ///
     /// Not for use by third-party applications.
     Reboot,
-    /// Allows an application to receive the [`Intent.ACTION_BOOT_COMPLETED`]
+    /// Allows an application to receive the [Intent.ACTION_BOOT_COMPLETED]
     /// that is broadcast after the system finishes booting. If you don't
     /// request this permission, you will not receive the broadcast at that time.
     /// Though holding this permission does not have any security implications,
@@ -728,7 +729,7 @@ pub enum AndroidPermission {
     ///
     /// Protection level: normal
     ///
-    /// [Intent.ACTION_BOOT_COMPLETED]::(https://developer.android.com/reference/android/content/Intent#ACTION_BOOT_COMPLETED)
+    /// [Intent.ACTION_BOOT_COMPLETED]: https://developer.android.com/reference/android/content/Intent#ACTION_BOOT_COMPLETED
     ReceiveBootCompleted,
     /// Allows an application to monitor incoming MMS messages.
     ///
@@ -782,11 +783,11 @@ pub enum AndroidPermission {
     /// Protection level: normal
     RequestDeletePackages,
     /// Permission an application must hold in order to use
-    /// [`Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`].
+    /// [Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS].
     ///
     /// Protection level: normal
     ///
-    /// [Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS]::(https://developer.android.com/reference/android/provider/Settings#ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+    /// [Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS]: https://developer.android.com/reference/android/provider/Settings#ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
     RequestIgnoreBatteryOptimizations,
     /// Allows an application to request installing packages.
     ///
@@ -802,9 +803,9 @@ pub enum AndroidPermission {
     RequestPasswordComplexity,
     /// This constant was deprecated in API level 15
     ///
-    /// The [`ActivityManager.restartPackage(String)`] API is no longer supported.
+    /// The [ActivityManager.restartPackage(String)] API is no longer supported.
     ///
-    /// [ActivityManager.restartPackage(String)]::(https://developer.android.com/reference/android/app/ActivityManager#restartPackage(java.lang.String))
+    /// [ActivityManager.restartPackage(String)]: https://developer.android.com/reference/android/app/ActivityManager#restartPackage(java.lang.String)
     RestartPackages,
     /// Allows applications to use exact alarm APIs.
     ///
@@ -842,9 +843,9 @@ pub enum AndroidPermission {
     /// Not for use by third-party applications.
     SetDebugApp,
     /// This constant was deprecated in API level 15. No longer useful, see
-    /// [`PackageManager.addPackageToPreferred(String)`] for details.
+    /// [PackageManager.addPackageToPreferred(String)] for details.
     ///
-    /// [PackageManager.addPackageToPreferred(String)]::(https://developer.android.com/reference/android/content/pm/PackageManager#addPackageToPreferred(java.lang.String))
+    /// [PackageManager.addPackageToPreferred(String)]: https://developer.android.com/reference/android/content/pm/PackageManager#addPackageToPreferred(java.lang.String)
     SetPreferredApplications,
     /// Allows an application to set the maximum number of (not needed)
     /// application processes that can be running.
@@ -891,7 +892,7 @@ pub enum AndroidPermission {
     /// Not for use by third-party applications.
     StatusBar,
     /// Allows an app to create windows using the type
-    /// [`WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY`], shown on top of all
+    /// [WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY], shown on top of all
     /// other apps.
     ///
     /// Protection level: signature|setup|appop|installer|pre23|development
@@ -903,7 +904,7 @@ pub enum AndroidPermission {
     /// Settings.ACTION_MANAGE_OVERLAY_PERMISSION. The app can check whether it has
     /// this authorization by calling Settings.canDrawOverlays().
     ///
-    /// [WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY]::(https://developer.android.com/reference/android/view/WindowManager.LayoutParams#TYPE_APPLICATION_OVERLAY)
+    /// [WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY]: https://developer.android.com/reference/android/view/WindowManager.LayoutParams#TYPE_APPLICATION_OVERLAY
     SystemAlertWindow,
     /// Allows using the device's IR transmitter, if available.
     ///
@@ -916,31 +917,31 @@ pub enum AndroidPermission {
     /// Not for use by third-party applications.
     UpdateDeviceStats,
     /// Allows an application to indicate via
-    /// [`PackageInstaller.SessionParams.setRequireUserAction(int)`] that user action
+    /// [PackageInstaller.SessionParams.setRequireUserAction(int)] that user action
     /// should not be required for an app update.
     ///
     /// Protection level: normal
     ///
-    /// [PackageInstaller.SessionParams.setRequireUserAction(int)]::(https://developer.android.com/reference/android/content/pm/PackageInstaller.SessionParams#setRequireUserAction(int))
+    /// [PackageInstaller.SessionParams.setRequireUserAction(int)]: https://developer.android.com/reference/android/content/pm/PackageInstaller.SessionParams#setRequireUserAction(int)
     UpdatePackagesWithoutUserAction,
     /// Allows an app to use device supported biometric modalities.
     ///
     /// Protection level: normal
     UseBiometric,
     /// This constant was deprecated in API level 28. Applications should request
-    /// [`USE_BIOMETRIC`] instead.
+    /// [USE_BIOMETRIC] instead.
     ///
     /// Protection level: normal
     ///
-    /// [USE_BIOMETRIC]::(https://developer.android.com/reference/android/Manifest.permission#USE_BIOMETRIC)
+    /// [USE_BIOMETRIC]: https://developer.android.com/reference/android/Manifest.permission#USE_BIOMETRIC
     UseFingerprint,
-    /// Required for apps targeting [`Build.VERSION_CODES.Q`] that want to use
-    /// [`notification full screen intents`].
+    /// Required for apps targeting [Build.VERSION_CODES.Q] that want to use
+    /// [notification full screen intents].
     ///
     /// Protection level: normal
     ///
-    /// [Build.VERSION_CODES.Q]::(https://developer.android.com/reference/android/os/Build.VERSION_CODES#Q)
-    /// [notification full screen intents]::(https://developer.android.com/reference/android/app/Notification.Builder#setFullScreenIntent(android.app.PendingIntent,%20boolean))
+    /// [Build.VERSION_CODES.Q]: https://developer.android.com/reference/android/os/Build.VERSION_CODES#Q
+    /// [notification full screen intents]: https://developer.android.com/reference/android/app/Notification.Builder#setFullScreenIntent(android.app.PendingIntent,%20boolean)
     UseFullScreenIntent,
     /// Allows to read device identifiers and use ICC based authentication like
     /// EAP-AKA.
@@ -1026,7 +1027,7 @@ pub enum AndroidPermission {
 }
 
 impl AndroidPermission {
-    pub fn get_full_permission(&self) -> String {
+    pub fn full_string(&self) -> String {
         "android.permission.".to_string() + self.to_string().as_str()
     }
 }
@@ -1328,10 +1329,10 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_get_full_permission() {
+    fn test_full_string() {
         let permission = AndroidPermission::AccessCheckinProperties;
         assert_eq!(
-            permission.get_full_permission(),
+            permission.full_string(),
             "android.permission.ACCESS_CHECKIN_PROPERTIES"
         );
     }
